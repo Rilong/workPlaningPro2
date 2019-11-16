@@ -7,18 +7,26 @@
         </div>
       </nav>
       <div class="card-content">
-        <form>
+        <form [formGroup]="form" (ngSubmit)="submit()">
           <div class="row">
             <div class="input-field col s12">
-              <input id="login" type="text" class="validate">
-              <label for="login">Логін</label>
+              <input id="email"
+                     type="text"
+                     [class.invalid]="form.get('email').touched && form.get('email').invalid"
+                     [class.valid]="form.get('email').touched && form.get('email').value"
+                     formControlName="email">
+              <label for="email">E-mail</label>
             </div>
             <div class="input-field col s12">
-              <input id="password" type="text" class="validate">
+              <input id="password"
+                     type="password"
+                     [class.invalid]="form.get('password').touched && form.get('password').invalid"
+                     [class.valid]="form.get('password').touched && form.get('password').valid"
+                     formControlName="password">
               <label for="password">Пароль</label>
             </div>
             <div class="col s12 right-align">
-              <button class="btn">Увійти</button>
+              <button class="btn" type="submit" [disabled]="form.disabled || form.invalid">Увійти</button>
             </div>
           </div>
         </form>
