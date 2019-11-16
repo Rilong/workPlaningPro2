@@ -1,4 +1,4 @@
-<div class="row">
+  <div class="row">
   <div class="col s6 offset-s3 login-card">
     <div class="card">
       <nav class="shadow-off login-label">
@@ -7,22 +7,80 @@
         </div>
       </nav>
       <div class="card-content">
-        <form>
+        <form [formGroup]="form" (ngSubmit)="submit()">
           <div class="row">
             <div class="input-field col s12">
-              <input id="login" type="text" class="validate">
-              <label for="login">Логін</label>
+              <input id="name"
+                     type="text"
+                     [class.invalid]="form.get('name').touched && form.get('name').invalid"
+                     [class.valid]="form.get('name').touched && form.get('name').valid"
+                     formControlName="name">
+              <label for="name">Ім'я</label>
+              <span class="helper-text red-text"
+                    *ngIf="form.get('name').touched && form.get('name').invalid"
+              >
+                <span *ngIf="form.get('name').errors['required']">Ім'я обов'язков</span>
+                <span *ngIf="form.get('name').errors['minlength']">
+                  Ім'я повинно бути не короче ніж {{form.get('name').errors['minlength']['requiredLength']}} символів.
+                  Зараз {{form.get('name').errors['minlength']['actualLength']}} символів
+                </span>
+              </span>
             </div>
             <div class="input-field col s12">
-              <input id="password" type="text" class="validate">
+              <input id="email"
+                     type="text"
+                     [class.invalid]="form.get('email').touched && form.get('email').invalid"
+                     [class.valid]="form.get('email').touched && form.get('email').value"
+                     formControlName="email">
+              <label for="email">E-mail</label>
+              <span class="helper-text red-text"
+                    *ngIf="form.get('email').touched && form.get('email').invalid"
+              >
+                <span *ngIf="form.get('email').errors['required']">E-mail обов'язковий</span>
+                <span *ngIf="form.get('email').errors['email']">
+                  Невірний формат E-mail
+                </span>
+              </span>
+            </div>
+            <div class="input-field col s12">
+              <input id="password"
+                     type="password"
+                     [class.invalid]="form.get('password').touched && form.get('password').invalid"
+                     [class.valid]="form.get('password').touched && form.get('password').valid"
+                     formControlName="password">
               <label for="password">Пароль</label>
+              <span class="helper-text red-text"
+                    *ngIf="form.get('password').touched && form.get('password').invalid"
+              >
+                <span *ngIf="form.get('password').errors['required']">Пароль обов'язковий</span>
+                <span *ngIf="form.get('password').errors['minlength']">
+                  Пароль повинен бути не короче ніж {{form.get('password').errors['minlength']['requiredLength']}} символів.
+                  Зараз {{form.get('password').errors['minlength']['actualLength']}} символів
+                </span>
+              </span>
             </div>
             <div class="input-field col s12">
-              <input id="password_confirmation" type="text" class="validate">
+              <input id="password_confirmation"
+                     type="password"
+                     [class.invalid]="(form.get('passwordConfirmation').touched && form.get('passwordConfirmation').invalid) ||
+                                      (form.get('passwordConfirmation').touched && form.hasError('passwordConfirmed'))"
+                     [class.valid]="form.get('passwordConfirmation').touched && form.get('passwordConfirmation').valid &&
+                                    !form.hasError('passwordConfirmed')"
+                     formControlName="passwordConfirmation">
               <label for="password_confirmation">Підтвердження пароля</label>
+              <span class="helper-text red-text"
+                    *ngIf="form.get('passwordConfirmation').touched && (form.get('passwordConfirmation').invalid || form.invalid)"
+              >
+                <span *ngIf="form.get('passwordConfirmation').hasError('required')">
+                  Підтвердження пароля обов'язкове
+                </span>
+                <span *ngIf="form.get('passwordConfirmation').valid && form.hasError('passwordConfirmed')">
+                  Пароли не співпадають
+                </span>
+              </span>
             </div>
             <div class="col s12 right-align">
-              <button class="btn">Зареєструватися</button>
+              <button class="btn" type="submit" [disabled]="form.disabled || form.invalid">Зареєструватися</button>
             </div>
           </div>
         </form>
