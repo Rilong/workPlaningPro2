@@ -7,6 +7,11 @@
         </div>
       </nav>
       <div class="card-content">
+        <div class="card green white-text" *ngIf="isRegistered">
+          <div class="card-content">
+            Ви успішно зареєструвались
+          </div>
+        </div>
         <form [formGroup]="form" (ngSubmit)="submit()">
           <div class="row">
             <div class="input-field col s12">
