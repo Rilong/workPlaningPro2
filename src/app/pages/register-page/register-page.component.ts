@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core'
 import {FormControl, FormGroup, Validators} from '@angular/forms'
 import MyValidators from '../../shared/my.validators'
-import {UserService} from '../../shared/services/user/user.service'
+import {AuthService} from '../../shared/services/auth/auth.service'
 import {RegisterData} from '../../shared/interfaces/registerData'
 import {ServerMessage} from '../../shared/interfaces/serverMessage'
 import {Router} from '@angular/router'
@@ -17,7 +17,7 @@ export class RegisterPageComponent implements OnInit, OnDestroy {
   form: FormGroup
   private rSub: Subscription
 
-  constructor(private userServer: UserService, private router: Router) {
+  constructor(private userServer: AuthService, private router: Router) {
   }
 
   ngOnInit() {

@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core'
 import {FormControl, FormGroup, Validators} from '@angular/forms'
 import {ActivatedRoute, Params} from '@angular/router'
 import {Subscription} from 'rxjs'
+import {AuthService} from '../../shared/services/auth/auth.service'
 
 @Component({
   selector: 'app-login-page',
@@ -14,7 +15,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   pSub: Subscription
   isRegistered = false
 
-  constructor(private route: ActivatedRoute) {
+  constructor(private userService: AuthService, private route: ActivatedRoute) {
   }
 
   ngOnInit() {
@@ -28,7 +29,16 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   }
 
   submit() {
-    console.log(this.form)
+    const email = this.form.get('email').value
+    const password = this.form.get('password').value
+
+    if (this.form.valid) {
+      this.form.disable()
+      this.userService.login(email, password).subscribe((response) => {
+        this.form.enable()
+        console.log(response)
+      }, () => this.form.enable())
+    }
   }
 
   ngOnDestroy(): void {

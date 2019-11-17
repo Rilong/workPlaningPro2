@@ -4,20 +4,20 @@ import {Observable, of, throwError} from 'rxjs'
 import {HttpClient} from '@angular/common/http'
 import {environment} from '../../../../environments/environment'
 import {ServerMessage} from '../../interfaces/serverMessage'
-import {catchError} from 'rxjs/operators'
+import {catchError, tap} from 'rxjs/operators'
 import {ToastService} from '../toast.service'
+import {Token} from '../../interfaces/token'
 
 @Injectable({
   providedIn: 'root'
 })
-export class UserService {
+export class AuthService {
 
   constructor(private http: HttpClient, private toastService: ToastService) {
   }
 
   public register(formData: RegisterData): Observable<ServerMessage> {
-    const url = environment.server_url
-    return this.http.post<ServerMessage>(`${url}/register`, formData)
+    return this.http.post<ServerMessage>(`${environment.server_url}/register`, formData)
       .pipe(
         catchError((err, caught) => {
           switch (err.error.message) {
@@ -30,7 +30,24 @@ export class UserService {
       )
   }
 
+  public login(email: string, password: string): Observable<Token> {
+    return this.http.post<Token>(`${environment.server_url}/login`, {email, password})
+      .pipe(
+        tap((token: Token) => {
+          this.saveToken(token)
+        }),
+      )
+  }
+
   public isAuthenticated() {
     return false
+  }
+
+  private saveToken(token: Token) {
+    localStorage.setItem('token', token.access_token)
+  }
+
+  private getToken() {
+    return localStorage.getItem('token')
   }
 }
