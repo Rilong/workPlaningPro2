@@ -1,17 +1,23 @@
-import {Component, OnInit} from '@angular/core'
+import {Component, OnDestroy, OnInit} from '@angular/core'
 import {FormControl, FormGroup, Validators} from '@angular/forms'
 import MyValidators from '../../shared/my.validators'
+import {UserService} from '../../shared/services/user/user.service'
+import {RegisterData} from '../../shared/interfaces/registerData'
+import {ServerMessage} from '../../shared/interfaces/serverMessage'
+import {Router} from '@angular/router'
+import {Subscription} from 'rxjs'
 
 @Component({
   selector: 'app-register-page',
   templateUrl: './register-page.component.html',
   styleUrls: ['./register-page.component.sass']
 })
-export class RegisterPageComponent implements OnInit {
+export class RegisterPageComponent implements OnInit, OnDestroy {
 
   form: FormGroup
+  private rSub: Subscription
 
-  constructor() {
+  constructor(private userServer: UserService, private router: Router) {
   }
 
   ngOnInit() {
@@ -34,6 +40,26 @@ export class RegisterPageComponent implements OnInit {
   }
 
   submit() {
-    console.log(this.form)
+
+    if (this.form.valid) {
+      const formData: RegisterData = {
+        name: this.form.get('name').value,
+        email: this.form.get('email').value,
+        password: this.form.get('password').value,
+      }
+      this.form.disable()
+      this.rSub = this.userServer.register(formData).subscribe((response: ServerMessage) => {
+        this.router.navigate(['/login'], {
+          queryParams: {register: true}
+        })
+        this.form.enable()
+      }, (e) => this.form.enable())
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.rSub) {
+      this.rSub.unsubscribe()
+    }
   }
 }
