@@ -1,13 +1,16 @@
 import {NgModule} from '@angular/core'
 import {FormsModule} from '@angular/forms'
+import {HttpClientModule} from '@angular/common/http'
 
 @NgModule({
   declarations: [],
   imports: [
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   exports: [
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ]
 })
 export class SharedModule {}
