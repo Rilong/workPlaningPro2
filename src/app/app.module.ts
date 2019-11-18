@@ -6,6 +6,8 @@ import {AppComponent} from './app.component'
 import {HomePageComponent} from './pages/home-page/home-page.component'
 import {HeaderComponent} from './header/header.component'
 import {SharedModule} from './shared/shared.module'
+import {HTTP_INTERCEPTORS} from '@angular/common/http'
+import {TokenInterceptor} from './interceptors/token.interceptor'
 
 @NgModule({
   declarations: [
@@ -18,7 +20,13 @@ import {SharedModule} from './shared/shared.module'
     AppRoutingModule,
     SharedModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
