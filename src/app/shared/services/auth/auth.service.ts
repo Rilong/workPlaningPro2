@@ -1,19 +1,20 @@
 import {Injectable} from '@angular/core'
 import {RegisterData} from '../../interfaces/registerData'
-import {Observable, of, throwError} from 'rxjs'
+import {Observable, throwError} from 'rxjs'
 import {HttpClient} from '@angular/common/http'
 import {environment} from '../../../../environments/environment'
 import {ServerMessage} from '../../interfaces/serverMessage'
 import {catchError, tap} from 'rxjs/operators'
 import {ToastService} from '../toast.service'
-import {Token} from '../../interfaces/token'
+import {UserService} from '../user/user.service'
+import {LoginResponse} from '../../interfaces/loginResponse'
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  constructor(private http: HttpClient, private toastService: ToastService) {
+  constructor(private http: HttpClient, private toastService: ToastService, private userService: UserService) {
   }
 
   public register(formData: RegisterData): Observable<ServerMessage> {
@@ -30,24 +31,37 @@ export class AuthService {
       )
   }
 
-  public login(email: string, password: string): Observable<Token> {
-    return this.http.post<Token>(`${environment.server_url}/login`, {email, password})
+  public login(email: string, password: string): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>(`${environment.server_url}/login`, {email, password})
       .pipe(
-        tap((token: Token) => {
+        tap(({token, user}) => {
           this.saveToken(token)
+          this.userService.setUser(user)
         }),
+        catchError((err, caught) => {
+          this.toastService.open('Невірний E-mail або пароль', 'danger')
+          return throwError(err)
+        })
       )
   }
 
   public isAuthenticated() {
-    return false
+    return this.hasToken() && this.userService.hasUser()
   }
 
-  private saveToken(token: Token) {
-    localStorage.setItem('token', token.access_token)
+  private saveToken(token: string) {
+    localStorage.setItem('token', token)
   }
 
-  private getToken() {
+  public hasToken(): boolean {
+    return !!this.getToken()
+  }
+
+  public getToken(): string {
     return localStorage.getItem('token')
+  }
+
+  public clearToken() {
+    localStorage.removeItem('token')
   }
 }
