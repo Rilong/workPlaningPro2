@@ -13,9 +13,11 @@ export class TokenInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
     if (this.authService.hasToken()) {
-      return next.handle(req.clone({
+      const handle = next.handle(req.clone({
         headers: req.headers.append('Authorization', `Bearer ${this.authService.getToken()}`)
-      })).pipe(catchError(err => {
+      }))
+
+      return handle.pipe(catchError(err => {
         if (err.status === 401) {
           this.authService.clearToken()
 
