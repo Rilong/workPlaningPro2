@@ -45,6 +45,15 @@ export class AuthService {
       )
   }
 
+  public unauthorize() {
+    this.clearToken()
+    this.userService.clearUser()
+  }
+
+  public logout(): Observable<string> {
+    return this.http.post<string>(`${environment.server_url}/logout`, {})
+  }
+
   public isAuthenticated(): boolean {
     return this.hasToken() && this.userService.hasUser()
   }

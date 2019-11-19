@@ -1,3 +1,4 @@
+<app-loader [show]="logoutLoading"></app-loader>
 <nav>
   <div class="nav-wrapper accent-3">
     <a href="#" class="brand-logo">WorkPlaningPro</a>
@@ -6,6 +7,7 @@
         <li routerLinkActive="active"><a href="#">Sass</a></li>
         <li routerLinkActive="active"><a href="#">Components</a></li>
         <li routerLinkActive="active"><a href="#">JavaScript</a></li>
+        <li><a (click)="logout($event)" href="#">Вихід</a></li>
       </ng-template>
       <ng-template #noAuth>
         <li routerLinkActive="active"><a routerLink="/login">Вхід</a></li>

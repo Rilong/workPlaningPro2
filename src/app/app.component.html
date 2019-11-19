@@ -1,5 +1,7 @@
-<app-header *ngIf="!userService.loading"></app-header>
-
-<div class="container">
-  <router-outlet></router-outlet>
+<app-loader [show]="userService.loading"></app-loader>
+<div *ngIf="!userService.loading">
+  <app-header></app-header>
+  <div class="container">
+    <router-outlet></router-outlet>
+  </div>
 </div>

@@ -30,4 +30,8 @@ export class UserService {
   public setUser(user): void {
     this.user = user
   }
+
+  public clearUser() {
+    this.setUser(null)
+  }
 }

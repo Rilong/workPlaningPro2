@@ -8,12 +8,14 @@ import {HeaderComponent} from './header/header.component'
 import {SharedModule} from './shared/shared.module'
 import {HTTP_INTERCEPTORS} from '@angular/common/http'
 import {TokenInterceptor} from './interceptors/token.interceptor'
+import {LoaderComponent} from './shared/components/loader/loader.component'
 
 @NgModule({
   declarations: [
     AppComponent,
     HomePageComponent,
-    HeaderComponent
+    HeaderComponent,
+    LoaderComponent
   ],
   imports: [
     BrowserModule,
