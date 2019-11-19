@@ -45,7 +45,7 @@ export class AuthService {
       )
   }
 
-  public isAuthenticated() {
+  public isAuthenticated(): boolean {
     return this.hasToken() && this.userService.hasUser()
   }
 
