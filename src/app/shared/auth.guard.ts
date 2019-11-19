@@ -4,6 +4,7 @@ import {Observable} from 'rxjs'
 import {AuthService} from './services/auth/auth.service'
 import {UserService} from './services/user/user.service'
 import {map, tap, finalize} from 'rxjs/operators'
+import {User} from './interfaces/user'
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,7 @@ export class AuthGuard implements CanActivate {
       this.userService.loading = true
       return this.userService.userFromServer()
         .pipe(
-          tap((user) => {
+          tap((user: User) => {
             this.userService.setUser(user)
           }),
           map(() => true),
