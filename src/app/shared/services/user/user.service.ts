@@ -9,6 +9,7 @@ import {User} from '../../interfaces/user'
 })
 export class UserService {
 
+  public loading = false
   private user: User = null
 
   constructor(private http: HttpClient) {

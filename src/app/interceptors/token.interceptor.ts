@@ -4,30 +4,28 @@ import {Observable, throwError} from 'rxjs'
 import {AuthService} from '../shared/services/auth/auth.service'
 import {catchError} from 'rxjs/operators'
 import {Router} from '@angular/router'
-import {LoadingService} from '../shared/services/loading.service'
-import {ToastService} from '../shared/services/toast.service'
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
-  constructor(private authService: AuthService,
-              private router: Router,
-              private loadingService: LoadingService,
-              private toastService: ToastService) {
+  constructor(private authService: AuthService, private router: Router) {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
     if (this.authService.hasToken()) {
-      console.log('interceptor')
       return next.handle(req.clone({
         headers: req.headers.append('Authorization', `Bearer ${this.authService.getToken()}`)
       })).pipe(catchError(err => {
-        if (err.error === 'Token is expired') {
-          this.loadingService.userLoading = false
+        if (err.status === 401) {
           this.authService.clearToken()
-          this.router.navigate(['/login'], {
-            queryParams: {expired: true}
-          })
+
+          if (err.error === 'Token is expired') {
+            this.router.navigate(['/login'], {
+              queryParams: {expired: true}
+            })
+          } else {
+            this.router.navigate(['/login'])
+          }
         }
 
         return throwError(err)

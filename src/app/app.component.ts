@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {LoadingService} from './shared/services/loading.service'
+import {UserService} from './shared/services/user/user.service'
 
 @Component({
   selector: 'app-root',
@@ -7,5 +7,5 @@ import {LoadingService} from './shared/services/loading.service'
   styleUrls: ['./app.component.sass']
 })
 export class AppComponent {
-  constructor(public loadingService: LoadingService) {}
+  constructor(public userService: UserService) {}
 }
