@@ -42,7 +42,6 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       this.form.disable()
       this.userService.login(email, password).subscribe((response) => {
         this.form.enable()
-        console.log(response)
         this.router.navigate(['/'])
         this.toastService.open('Ви успішно зайшли в аккаунт', 'success')
       }, () => this.form.enable())
