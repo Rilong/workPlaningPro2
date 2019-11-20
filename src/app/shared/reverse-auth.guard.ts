@@ -1,5 +1,4 @@
 import {Injectable} from '@angular/core'
-import {Location} from '@angular/common'
 import {CanLoad, Route, Router} from '@angular/router'
 import {AuthService} from './services/auth/auth.service'
 
@@ -8,7 +7,7 @@ import {AuthService} from './services/auth/auth.service'
   providedIn: 'root'
 })
 export class ReverseAuthGuard implements CanLoad {
-  constructor(private authService: AuthService, private location: Location, private router: Router) {
+  constructor(private authService: AuthService, private router: Router) {
   }
 
   canLoad(route: Route): boolean {
