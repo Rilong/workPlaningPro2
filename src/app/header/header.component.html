@@ -3,7 +3,7 @@
   <div class="nav-wrapper accent-3">
     <a href="#" class="brand-logo">WorkPlaningPro</a>
     <ul id="nav-mobile" class="right hide-on-med-and-down">
-      <ng-template [ngIf]="authService.isAuthenticated()" [ngIfElse]="noAuth">
+      <ng-template [ngIf]="authService.hasToken()" [ngIfElse]="noAuth">
         <li routerLinkActive="active"><a href="#">Sass</a></li>
         <li routerLinkActive="active"><a href="#">Components</a></li>
         <li routerLinkActive="active"><a href="#">JavaScript</a></li>
