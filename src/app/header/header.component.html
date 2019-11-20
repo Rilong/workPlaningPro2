@@ -4,9 +4,6 @@
     <a href="#" class="brand-logo">WorkPlaningPro</a>
     <ul id="nav-mobile" class="right hide-on-med-and-down">
       <ng-template [ngIf]="authService.hasToken()" [ngIfElse]="noAuth">
-        <li routerLinkActive="active"><a href="#">Sass</a></li>
-        <li routerLinkActive="active"><a href="#">Components</a></li>
-        <li routerLinkActive="active"><a href="#">JavaScript</a></li>
         <li><a (click)="logout($event)" href="#"><app-icon>exit_to_app</app-icon></a></li>
       </ng-template>
       <ng-template #noAuth>

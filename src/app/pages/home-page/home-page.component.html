@@ -1,1 +1,15 @@
-<p>home-page works!</p>
+<div class="right-align top-line">
+  <button class="waves-effect waves-light btn btn-large green lighten-1" (click)="openProjectModal()">Створити новий проект</button>
+</div>
+<div id="createProjectWindow" class="modal" #createProjectModal>
+  <div class="modal-content">
+    <h4>Новий проект</h4>
+      <div class="input-field col s12">
+        <input id="projectName" placeholder="Назва проекту" type="text" class="validate">
+      </div>
+  </div>
+  <div class="modal-footer">
+    <a href="#!" class="modal-close waves-effect waves-red btn-flat red-text">Відміна</a>
+    <a href="#!" class="waves-effect waves-green btn-flat green-text">Створити проект</a>
+  </div>
+</div>
