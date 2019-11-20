@@ -9,13 +9,15 @@ import {SharedModule} from './shared/shared.module'
 import {HTTP_INTERCEPTORS} from '@angular/common/http'
 import {TokenInterceptor} from './interceptors/token.interceptor'
 import {LoaderComponent} from './shared/components/loader/loader.component'
+import {IconComponent} from './shared/components/icon/icon.component'
 
 @NgModule({
   declarations: [
     AppComponent,
     HomePageComponent,
     HeaderComponent,
-    LoaderComponent
+    LoaderComponent,
+    IconComponent
   ],
   imports: [
     BrowserModule,
