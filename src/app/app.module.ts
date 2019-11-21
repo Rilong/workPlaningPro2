@@ -10,6 +10,8 @@ import {HTTP_INTERCEPTORS} from '@angular/common/http'
 import {TokenInterceptor} from './interceptors/token.interceptor'
 import {LoaderComponent} from './shared/components/loader/loader.component'
 import {IconComponent} from './shared/components/icon/icon.component'
+import {CreationProjectComponent} from './shared/components/creation-project/creation-project.component'
+import {ProjectsListComponent} from './shared/components/projects-list/projects-list.component'
 
 @NgModule({
   declarations: [
@@ -17,7 +19,9 @@ import {IconComponent} from './shared/components/icon/icon.component'
     HomePageComponent,
     HeaderComponent,
     LoaderComponent,
-    IconComponent
+    IconComponent,
+    CreationProjectComponent,
+    ProjectsListComponent
   ],
   imports: [
     BrowserModule,

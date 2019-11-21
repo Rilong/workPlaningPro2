@@ -1,34 +1,31 @@
-import {AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core'
-import {Modal} from 'materialize-css'
+import {Component, OnDestroy, OnInit} from '@angular/core'
+import {ProjectService} from '../../shared/services/project/project.service'
+import {Subscription} from 'rxjs'
+
 @Component({
   selector: 'app-home-page',
   templateUrl: './home-page.component.html',
   styleUrls: ['./home-page.component.sass']
 })
-export class HomePageComponent implements OnInit, AfterViewInit, OnDestroy {
+export class HomePageComponent implements OnInit, OnDestroy {
 
-  @ViewChild('createProjectModal', {static: false}) modal: ElementRef
-  modalInstance = null
+  pSub: Subscription
+  pLoading = false
 
-  constructor() {
+  constructor(public projectService: ProjectService) {
   }
 
   ngOnInit() {
-  }
-
-  ngAfterViewInit(): void {
-    this.modalInstance = Modal.init(this.modal.nativeElement, {
-      endingTop: '50%'
-    })
+    this.pLoading = true
+    this.pSub = this.projectService.load().subscribe(
+      () => this.pLoading = false,
+      () => this.pLoading = false
+    )
   }
 
   ngOnDestroy(): void {
-    if (this.modalInstance) {
-      this.modalInstance.destroy()
+    if (this.pSub) {
+      this.pSub.unsubscribe()
     }
-  }
-
-  openProjectModal() {
-    this.modalInstance.open()
   }
 }
