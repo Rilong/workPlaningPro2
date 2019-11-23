@@ -11,7 +11,8 @@ import {TokenInterceptor} from './interceptors/token.interceptor'
 import {LoaderComponent} from './shared/components/loader/loader.component'
 import {IconComponent} from './shared/components/icon/icon.component'
 import {CreationProjectComponent} from './shared/components/creation-project/creation-project.component'
-import {ProjectsListComponent} from './shared/components/projects-list/projects-list.component'
+import {ProjectsListComponent} from './shared/components/projects-list/projects-list.component';
+import { ProjectPageComponent } from './pages/project-page/project-page.component'
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import {ProjectsListComponent} from './shared/components/projects-list/projects-
     LoaderComponent,
     IconComponent,
     CreationProjectComponent,
-    ProjectsListComponent
+    ProjectsListComponent,
+    ProjectPageComponent
   ],
   imports: [
     BrowserModule,
