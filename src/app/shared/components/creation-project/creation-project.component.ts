@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core'
+import {AfterViewInit, Component, ElementRef, EventEmitter, OnDestroy, OnInit, Output, ViewChild} from '@angular/core'
 import {Modal} from 'materialize-css'
 import {ModalInstance} from '../../interfaces/modal'
 import {ProjectService} from '../../services/project/project.service'
@@ -15,6 +15,7 @@ export class CreationProjectComponent implements OnInit, AfterViewInit, OnDestro
 
   @ViewChild('createProjectModal', {static: false}) modal: ElementRef
   @ViewChild('projectNameInput', {static: false}) input: ElementRef<HTMLInputElement>
+  @Output() add: EventEmitter<Project> = new EventEmitter<Project>()
 
   pSub: Subscription
   modalInstance: ModalInstance = null
@@ -42,7 +43,7 @@ export class CreationProjectComponent implements OnInit, AfterViewInit, OnDestro
       this.pSub = this.projectService.create(this.projectName)
         .subscribe((project: Project) => {
           this.loading = false
-          this.projectService.add(project)
+          this.add.emit(project)
           this.toastService.open('Проект створенно', 'success')
           this.closeProjectModal()
         }, (e) => {
