@@ -1,4 +1,4 @@
-<div *ngIf="!loading; else loader">
+<div *ngIf="!loading">
   <div class="row">
     <div class="col s8 offset-s2">
       <div class="card">
@@ -11,7 +11,6 @@
   </div>
 
 </div>
-
-<ng-template #loader>
-  <p>Loading...</p>
-</ng-template>
+<p class="center loader">
+  <app-loader [show]="loading" type="spinner" size="big"></app-loader>
+</p>

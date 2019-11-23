@@ -1,5 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core'
 
+type loaderType = 'indeterminate' | 'spinner'
+type loaderSize = '' | 'small' | 'big'
+
 @Component({
   selector: 'app-loader',
   templateUrl: './loader.component.html',
@@ -8,6 +11,8 @@ import {Component, Input, OnInit} from '@angular/core'
 export class LoaderComponent implements OnInit {
 
   @Input() show = false
+  @Input() type: loaderType = 'indeterminate'
+  @Input() size: loaderSize = ''
 
   constructor() { }
 
