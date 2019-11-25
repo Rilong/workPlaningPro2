@@ -14,3 +14,32 @@ $primary-color: color('teal', 'lighten-2') !default
 .messageToast
   padding: 0 15px
   left: 100px
+
+// Outline text field
+
+.input-field.outline
+  input[type="text"], .materialize-textarea
+    box-sizing: border-box
+    border: 1px solid #000
+    border-radius: 4px
+    padding: 18.5px 14px
+    &:not(.browser-default)
+      &:focus
+        border: 2px solid $primary-color
+        box-shadow: none
+
+  .materialize-textarea
+    min-height: 150px
+
+  label
+    font-size: 1.2rem
+    margin-left: 18.5px
+    top: -4px
+
+    &:not(.label-icon)
+      &.active
+        background-color: #fff
+        transform: translateY(-8px) scale(0.9)
+        border-left: 2px solid #fff
+        border-right: 4px solid #fff
+
