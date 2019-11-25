@@ -12,18 +12,20 @@ import {LoaderComponent} from './shared/components/loader/loader.component'
 import {IconComponent} from './shared/components/icon/icon.component'
 import {CreationProjectComponent} from './shared/components/creation-project/creation-project.component'
 import {ProjectsListComponent} from './shared/components/projects-list/projects-list.component';
-import { ProjectPageComponent } from './pages/project-page/project-page.component'
+import {TasksListComponent} from './shared/components/tasks-list/tasks-list.component'
+import {ProjectPageComponent} from './pages/project-page/project-page.component'
 
 @NgModule({
   declarations: [
     AppComponent,
     HomePageComponent,
+    ProjectPageComponent,
     HeaderComponent,
     LoaderComponent,
     IconComponent,
     CreationProjectComponent,
     ProjectsListComponent,
-    ProjectPageComponent
+    TasksListComponent
   ],
   imports: [
     BrowserModule,

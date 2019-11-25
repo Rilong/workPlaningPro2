@@ -3,8 +3,37 @@
     <div class="col s8 offset-s2">
       <div class="card">
         <div class="card-content">
+          <div class="dates">
+            <span>01.12.2019</span>
+            <span>01.01.2020</span>
+          </div>
           <h3 class="project-title">{{project.name}}</h3>
-          <p></p>
+          <div class="project-progress">
+            <div class="progress">
+              <div class="determinate" style="width: 70%"></div>
+            </div>
+            <p class="center-align">70%</p>
+          </div>
+          <div class="desc">
+            <div class="row">
+              <div class="col s12">
+                <p class="text">Детальний опис</p> <!-- Don't forget to add class filled -->
+              </div>
+              <!--<div class="input-field outline col s12">
+                <textarea id="textarea1" class="materialize-textarea"></textarea>
+                <label for="textarea1">Опис</label>
+              </div>-->
+            </div>
+            <div class="divider"></div>
+            <div class="tasks">
+              <div class="row">
+                <div class="col s12">
+                  <h5>Завдання</h5>
+                  <app-tasks-list></app-tasks-list>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

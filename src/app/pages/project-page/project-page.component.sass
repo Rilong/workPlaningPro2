@@ -1,6 +1,39 @@
+@import "~materialize-css/sass/components/color-variables"
+
+.dates
+  display: flex
+  justify-content: space-between
+
+  span
+    cursor: pointer
+    transition: color ease .3s
+    &:hover
+      color: #6f6f6f
+
 .project
   &-title
     margin-top: 0
 
+  &-progress
+    margin-bottom: 1rem
+    .progress
+      margin-bottom: 0
+    p
+      margin-top: 2px
+      font-size: 1.3rem
+
 .loader
   margin-top: 100px
+
+.desc
+  .text
+    padding: 18.5px 14px
+    min-height: 150px
+    color: #6d6d6d
+    cursor: pointer
+    transition: background-color .3s ease
+    &:not(.filled)
+      background-color: color('grey', 'lighten-3')
+      box-shadow: 1px 1px 2px rgba(#000, .1)
+      &:hover
+        background-color: color('grey', 'lighten-2')
