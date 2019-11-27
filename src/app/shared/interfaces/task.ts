@@ -4,6 +4,7 @@ export interface Task {
   project_id?: number
   parent_id?: number
   is_done?: boolean
-  deadline_date: string
-  finished_date: string
+  deadline_date?: string
+  finished_date?: string
+  show_control?: boolean
 }

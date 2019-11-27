@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core'
 import {ProjectService} from '../../shared/services/project/project.service'
 import {ActivatedRoute, Params, Router} from '@angular/router'
 import {TaskService} from '../../shared/services/task/task.service'
@@ -13,9 +13,14 @@ import {Task} from '../../shared/interfaces/task'
 })
 export class ProjectPageComponent implements OnInit {
 
+  @ViewChild('nameInput', {static: false}) nameInput: ElementRef<HTMLInputElement>
+  @ViewChild('descArea', {static: false}) descArea: ElementRef<HTMLTextAreaElement>
+
   project: Project
   tasks: Task[]
   loading = false
+  showEditName = false
+  showEditDesc = false
 
   constructor(
     private projectService: ProjectService,
@@ -34,5 +39,25 @@ export class ProjectPageComponent implements OnInit {
           this.tasks = projectAll.tasks
       }, () => this.loading = false)
     })
+  }
+
+  editName() {
+    this.showEditName = true
+    setTimeout(() => this.nameInput.nativeElement.focus(), 0)
+  }
+
+  saveName(name: string) {
+    this.showEditName = false
+    console.log(name)
+  }
+
+  editDesc() {
+    this.showEditDesc = true
+    setTimeout(() => this.descArea.nativeElement.focus(), 0)
+  }
+
+  saveDesc(desc: string) {
+    console.log(desc)
+    this.showEditDesc = false
   }
 }
