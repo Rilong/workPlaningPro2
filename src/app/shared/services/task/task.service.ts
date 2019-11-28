@@ -14,4 +14,16 @@ export class TaskService {
   getAll(projectId: number): Observable<Task[]> {
     return this.http.get<Task[]>(`${environment.server_url}/projects/${projectId}/tasks`)
   }
+
+  update(projectId: number, taskId: number, data: Task): Observable<string> {
+    return this.http.put<string>(`${environment.server_url}/projects/${projectId}/tasks/${taskId}`, data)
+  }
+
+  toggleCheck(projectId: number, taskId: number, data: {check: boolean}): Observable<string> {
+    return this.http.put<string>(`${environment.server_url}/projects/${projectId}/tasks/${taskId}/toggleCheck`, data)
+  }
+
+  delete(projectId: number, taskId: number): Observable<string> {
+    return this.http.delete<string>(`${environment.server_url}/projects/${projectId}/tasks/${taskId}`)
+  }
 }

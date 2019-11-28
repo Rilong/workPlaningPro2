@@ -11,7 +11,7 @@
             <div class="row" *ngIf="showEditName; else showProjectName">
               <div class="input-field outline col s12">
                 <input id="name" type="text"
-                       (blur)="saveName($event.target.value)"
+                       (blur)="saveName($event.target['value'])"
                        (keyup.enter)="showEditName = false"
                        [value]="project.name"
                        #nameInput>
@@ -33,7 +33,7 @@
               <div class="input-field outline col s12" *ngIf="showEditDesc; else showProjectDesc">
                 <textarea id="textarea1"
                           class="materialize-textarea"
-                          (blur)="saveDesc($event.target.value)"
+                          (blur)="saveDesc($event.target['value'])"
                           #descArea>{{project.description ? project.description : ''}}</textarea>
                 <label for="textarea1">Опис проекту</label>
               </div>
@@ -41,8 +41,9 @@
                 <div class="col s12">
                   <p class="text"
                      (click)="editDesc()"
-                     [class.filled]="project.description">
-                    {{project.description ? project.description : 'Детальний опис' }}
+                     [class.filled]="project.description"
+                     [innerText]="project.description ? project.description : 'Детальний опис' "
+                  >
                   </p>
                 </div>
               </ng-template>
@@ -52,7 +53,7 @@
               <div class="row">
                 <div class="col s12">
                   <h5>Завдання</h5>
-                  <app-tasks-list [tasks]="tasks"></app-tasks-list>
+                  <app-tasks-list [tasks]="tasks" (check)="checkToggle($event)" (delete)="taskDelete($event)"></app-tasks-list>
                 </div>
               </div>
             </div>
