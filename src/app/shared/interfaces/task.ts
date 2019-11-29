@@ -7,4 +7,5 @@ export interface Task {
   deadline_date?: string
   finished_date?: string
   show_control?: boolean
+  show_edit?: boolean
 }
