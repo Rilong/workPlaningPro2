@@ -15,6 +15,10 @@ export class TaskService {
     return this.http.get<Task[]>(`${environment.server_url}/projects/${projectId}/tasks`)
   }
 
+  create(projectId: number, task: Task): Observable<Task> {
+    return this.http.post<Task>(`${environment.server_url}/projects/${projectId}/tasks`, task)
+  }
+
   update(projectId: number, taskId: number, data: Task): Observable<string> {
     return this.http.put<string>(`${environment.server_url}/projects/${projectId}/tasks/${taskId}`, data)
   }

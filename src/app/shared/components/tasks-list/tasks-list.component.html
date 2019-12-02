@@ -16,7 +16,7 @@
       <span class="input-field" *ngIf="task.show_edit; else title">
         <input type="text"
                [value]="task.title"
-               (blur)="hideUpdate($event.target['value'], idx)"
+               (blur)="saveTask($event.target['value'], idx)"
                (keyup.enter)="task.show_edit = false" #input>
       </span>
       <ng-template #title>

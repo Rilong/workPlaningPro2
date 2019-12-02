@@ -6,6 +6,7 @@ import {ProjectAll} from '../../shared/interfaces/projectAll'
 import {Project} from '../../shared/interfaces/project'
 import {Task} from '../../shared/interfaces/task'
 import {CheckEvent} from '../../shared/interfaces/checkEvent'
+import {EditEvent} from '../../shared/interfaces/editEvent'
 
 @Component({
   selector: 'app-project-page',
@@ -75,8 +76,38 @@ export class ProjectPageComponent implements OnInit {
   }
 
   taskDelete(id: number) {
-    this.taskService.delete(this.project.id, id)
-      .subscribe((response) => console.log(response)) // Don't forget to remove a log
+    if (id > 0) {
+      this.taskService.delete(this.project.id, id)
+        .subscribe((response) => console.log(response)) // Don't forget to remove a log
+    }
+
     this.tasks = this.tasks.filter((ts) => ts.id !== id)
+  }
+
+  taskAdd() {
+    const newTask: Task = {
+      id: 0,
+      title: '',
+      is_done: 0,
+      show_edit: true,
+    }
+    this.tasks.push(newTask)
+  }
+
+
+  taskAddSave(task: Task) {
+    const idx = this.tasks.findIndex(ts => ts.id === task.id)
+
+    this.taskService.create(this.project.id, task).subscribe((task) => {
+      this.tasks[idx] = task
+    })
+
+  }
+
+  taskEdit(values: EditEvent) {
+    const idx = this.tasks.findIndex(ts => ts.id === values.id)
+    this.tasks[idx].title = values.value
+    this.taskService.update(this.project.id, this.tasks[idx].id, {title: values.value})
+      .subscribe(res => console.log(res))
   }
 }
