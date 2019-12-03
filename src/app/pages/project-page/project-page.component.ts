@@ -39,7 +39,6 @@ export class ProjectPageComponent implements OnInit {
           this.loading = false
           this.project = projectAll.project
           this.tasks = projectAll.tasks
-          console.log(this.tasks)
       }, () => this.loading = false)
     })
   }
@@ -70,7 +69,7 @@ export class ProjectPageComponent implements OnInit {
     const taskIndex = this.tasks.findIndex((ts) => ts.id === check.id)
 
     this.taskService.toggleCheck(this.project.id, check.id, {check: check.checked})
-      .subscribe((response: string) => console.log(response)) // Don't forget to remove a log
+      .subscribe()
 
     this.tasks[taskIndex].is_done = check.checked ? 1 : 0
   }
@@ -78,7 +77,7 @@ export class ProjectPageComponent implements OnInit {
   taskDelete(id: number) {
     if (id > 0) {
       this.taskService.delete(this.project.id, id)
-        .subscribe((response) => console.log(response)) // Don't forget to remove a log
+        .subscribe()
     }
 
     this.tasks = this.tasks.filter((ts) => ts.id !== id)
@@ -108,6 +107,6 @@ export class ProjectPageComponent implements OnInit {
     const idx = this.tasks.findIndex(ts => ts.id === values.id)
     this.tasks[idx].title = values.value
     this.taskService.update(this.project.id, this.tasks[idx].id, {title: values.value})
-      .subscribe(res => console.log(res))
+      .subscribe()
   }
 }
