@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {UserService} from './shared/services/user/user.service'
+import * as moment from 'moment'
 
 @Component({
   selector: 'app-root',
@@ -7,5 +8,7 @@ import {UserService} from './shared/services/user/user.service'
   styleUrls: ['./app.component.sass']
 })
 export class AppComponent {
-  constructor(public userService: UserService) {}
+  constructor(public userService: UserService) {
+      moment.locale('uk')
+  }
 }

@@ -11,9 +11,11 @@ import {TokenInterceptor} from './interceptors/token.interceptor'
 import {LoaderComponent} from './shared/components/loader/loader.component'
 import {IconComponent} from './shared/components/icon/icon.component'
 import {CreationProjectComponent} from './shared/components/creation-project/creation-project.component'
-import {ProjectsListComponent} from './shared/components/projects-list/projects-list.component';
+import {ProjectsListComponent} from './shared/components/projects-list/projects-list.component'
 import {TasksListComponent} from './shared/components/tasks-list/tasks-list.component'
 import {ProjectPageComponent} from './pages/project-page/project-page.component'
+import {CalendarPageComponent} from './pages/calendar-page/calendar-page.component'
+import {MomentPipe} from './shared/pipes/moment/moment.pipe'
 
 @NgModule({
   declarations: [
@@ -25,7 +27,9 @@ import {ProjectPageComponent} from './pages/project-page/project-page.component'
     IconComponent,
     CreationProjectComponent,
     ProjectsListComponent,
-    TasksListComponent
+    TasksListComponent,
+    CalendarPageComponent,
+    MomentPipe
   ],
   imports: [
     BrowserModule,

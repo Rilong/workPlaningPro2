@@ -1,0 +1,11 @@
+<div class="header">
+  <button class="btn btn-floating btn-large waves-effect waves-light"
+          (click)="go(-1)">
+    <app-icon>arrow_back_ios</app-icon>
+  </button>
+  <span>{{calendarService.date | async | moment}}</span>
+  <button class="btn btn-floating btn-large waves-effect waves-light"
+          (click)="go()">
+    <app-icon>arrow_forward_ios</app-icon>
+  </button>
+</div>
