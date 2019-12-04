@@ -13,11 +13,14 @@ import {Week} from '../../shared/interfaces/calendar/week'
 export class CalendarPageComponent implements OnInit, OnDestroy {
 
   dSub: Subscription
+  daysOfWeek: string[]
   calendar: Week[]
 
   constructor(private calendarService: CalendarService) { }
 
   ngOnInit() {
+    this.daysOfWeek = moment.weekdays(true)
+    console.log(this.daysOfWeek)
     this.dSub = this.calendarService.date.subscribe(this.generate.bind(this))
   }
 
@@ -36,7 +39,7 @@ export class CalendarPageComponent implements OnInit, OnDestroy {
           .map(() => {
             const value = date.add(1, 'day').clone()
             const active = moment().isSame(value, 'day')
-            const disabled = !now.isSame(now, 'month')
+            const disabled = !now.isSame(value, 'month')
             const selected = false
 
             return {

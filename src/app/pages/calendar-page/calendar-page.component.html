@@ -3,9 +3,28 @@
           (click)="go(-1)">
     <app-icon>arrow_back_ios</app-icon>
   </button>
-  <span>{{calendarService.date | async | moment}}</span>
+  <span>{{calendarService.date | async | moment:'MMMM YYYY'}}</span>
   <button class="btn btn-floating btn-large waves-effect waves-light"
           (click)="go()">
     <app-icon>arrow_forward_ios</app-icon>
   </button>
+</div>
+
+<div class="calendar">
+  <div class="weeks">
+    <div *ngFor="let day of daysOfWeek">
+      <span>{{day}}</span>
+    </div>
+  </div>
+  <div class="days">
+    <div class="days-row" *ngFor="let week of calendar">
+      <div class="day"
+           *ngFor="let day of week.days"
+           [class.disabled]="day.disabled"
+           [class.active]="day.active"
+           [class.selected]="day.selected">
+        <span>{{day.value | moment:'D'}}</span>
+      </div>
+    </div>
+  </div>
 </div>
