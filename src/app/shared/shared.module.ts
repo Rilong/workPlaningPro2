@@ -1,10 +1,9 @@
 import {NgModule} from '@angular/core'
 import {FormsModule} from '@angular/forms'
 import {HttpClientModule} from '@angular/common/http';
-import { CalendarChooserComponent } from './components/calendar-chooser/calendar-chooser.component';
 
 @NgModule({
-  declarations: [CalendarChooserComponent],
+  declarations: [],
   imports: [
     FormsModule,
     HttpClientModule
@@ -12,7 +11,6 @@ import { CalendarChooserComponent } from './components/calendar-chooser/calendar
   exports: [
     FormsModule,
     HttpClientModule,
-    CalendarChooserComponent
   ]
 })
 export class SharedModule {}
