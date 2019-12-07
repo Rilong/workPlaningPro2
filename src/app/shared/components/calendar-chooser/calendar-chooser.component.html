@@ -1,1 +1,17 @@
-<p>calendar-chooser works!</p>
+<div class="calendar">
+  <div class="weeks">
+    <span *ngFor="let day of daysOfWeek">{{day}}</span>
+  </div>
+  <div class="days">
+    <div class="days-row" *ngFor="let week of calendar">
+      <div class="day"
+           *ngFor="let day of week.days"
+           [class.disabled]="day.disabled"
+           [class.active]="day.active"
+           [class.selected]="day.selected"
+      >
+        <span>{{day.value | moment:'D'}}</span>
+      </div>
+    </div>
+  </div>
+</div>

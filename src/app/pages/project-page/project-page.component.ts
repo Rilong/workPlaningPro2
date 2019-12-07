@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core'
+import {AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core'
 import {ProjectService} from '../../shared/services/project/project.service'
 import {ActivatedRoute, Params, Router} from '@angular/router'
 import {TaskService} from '../../shared/services/task/task.service'
@@ -16,7 +16,7 @@ import * as moment from 'moment'
   templateUrl: './project-page.component.html',
   styleUrls: ['./project-page.component.sass']
 })
-export class ProjectPageComponent implements OnInit, OnDestroy {
+export class ProjectPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild('calendarModal', {static: false}) calendarModal: ElementRef<HTMLDivElement>
   @ViewChild('nameInput', {static: false}) nameInput: ElementRef<HTMLInputElement>
@@ -29,6 +29,7 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
   showEditDesc = false
   calendarModalInstance: ModalInstance = null
   calendarValue: moment.Moment = null
+  calendarTaskId: number = null
 
   constructor(
     private projectService: ProjectService,
@@ -48,13 +49,23 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
           this.tasks = projectAll.tasks
       }, () => this.loading = false)
     })
-    this.calendarModalInstance = Modal.init(this.calendarModal.nativeElement)
+  }
+
+  ngAfterViewInit(): void {
+    this.calendarModalInstance = Modal.init(this.calendarModal.nativeElement, {
+      onCloseEnd: el => this.calendarTaskId = null
+    })
   }
 
   editName() {
     this.showEditName = true
     setTimeout(() => this.nameInput.nativeElement.focus(), 0)
   }
+
+  /*
+  *
+  * Description
+  * */
 
   saveName(name: string) {
     this.showEditName = false
@@ -72,6 +83,11 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
     this.project.description = desc
     this.projectService.update(this.project.id, {description: desc}).subscribe()
   }
+
+  /*
+  *
+  * Task
+  * */
 
   checkToggle(check: CheckEvent) {
     const taskIndex = this.tasks.findIndex((ts) => ts.id === check.id)
@@ -116,6 +132,20 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
     this.tasks[idx].title = values.value
     this.taskService.update(this.project.id, this.tasks[idx].id, {title: values.value})
       .subscribe()
+  }
+
+  /*
+  *
+  * Calendar
+  * */
+
+  calendarChoose(id: number) {
+    this.calendarTaskId = id
+    this.calendarChooseOpen()
+  }
+
+  calendarChooseOpen() {
+    this.calendarModalInstance.open()
   }
 
   calendarChooserClose() {

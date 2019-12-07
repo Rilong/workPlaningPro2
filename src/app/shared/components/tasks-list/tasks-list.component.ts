@@ -16,6 +16,7 @@ export class TasksListComponent implements OnInit, OnChanges {
   @Output() delete: EventEmitter<number> = new EventEmitter<number>()
   @Output() edit: EventEmitter<EditEvent> = new EventEmitter<EditEvent>()
   @Output() save: EventEmitter<Task> = new EventEmitter<Task>()
+  @Output() calendarChoose: EventEmitter<number> = new EventEmitter<number>()
 
   @ViewChild('input', {static: false}) input: ElementRef<HTMLInputElement>
 
