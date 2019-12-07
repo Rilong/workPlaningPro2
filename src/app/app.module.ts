@@ -16,6 +16,7 @@ import {TasksListComponent} from './shared/components/tasks-list/tasks-list.comp
 import {ProjectPageComponent} from './pages/project-page/project-page.component'
 import {CalendarPageComponent} from './pages/calendar-page/calendar-page.component'
 import {MomentPipe} from './shared/pipes/moment/moment.pipe'
+import {CalendarChooserComponent} from './shared/components/calendar-chooser/calendar-chooser.component'
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import {MomentPipe} from './shared/pipes/moment/moment.pipe'
     ProjectsListComponent,
     TasksListComponent,
     CalendarPageComponent,
+    CalendarChooserComponent,
     MomentPipe
   ],
   imports: [
