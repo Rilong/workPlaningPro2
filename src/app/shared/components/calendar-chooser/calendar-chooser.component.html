@@ -1,3 +1,15 @@
+<div class="header">
+  <button class="btn btn-small btn-floating btn-large waves-effect waves-light back"
+          (click)="go(-1)">
+    <app-icon>arrow_back_ios</app-icon>
+  </button>
+  <span>{{calendarService.date | async | moment:'MMMM YYYY'}}</span>
+  <button class="btn btn-small btn-floating btn-large waves-effect waves-light forward"
+          (click)="go()">
+    <app-icon>arrow_forward_ios</app-icon>
+  </button>
+</div>
+
 <div class="calendar">
   <div class="weeks">
     <span *ngFor="let day of daysOfWeek">{{day}}</span>

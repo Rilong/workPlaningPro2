@@ -31,4 +31,7 @@ export class CalendarChooserComponent implements OnInit, OnDestroy {
     }
   }
 
+  go(direction: number = 1) {
+    this.calendarService.changeMouth(direction)
+  }
 }
