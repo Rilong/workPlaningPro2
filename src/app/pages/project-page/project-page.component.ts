@@ -10,6 +10,7 @@ import {EditEvent} from '../../shared/interfaces/editEvent'
 import {Modal} from 'materialize-css'
 import {ModalInstance} from '../../shared/interfaces/modal'
 import * as moment from 'moment'
+import {Day} from '../../shared/interfaces/calendar/day'
 
 @Component({
   selector: 'app-project-page',
@@ -28,7 +29,7 @@ export class ProjectPageComponent implements OnInit, AfterViewInit, OnDestroy {
   showEditName = false
   showEditDesc = false
   calendarModalInstance: ModalInstance = null
-  calendarValue: moment.Moment = null
+  calendarValue: Day = null
   calendarTaskId: number = null
 
   constructor(
@@ -153,7 +154,12 @@ export class ProjectPageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   calendarChooserApply() {
+    this.calendarValue.selected = false
+  }
 
+
+  calendarSelect(day: Day) {
+    this.calendarValue = day
   }
 
   ngOnDestroy(): void {

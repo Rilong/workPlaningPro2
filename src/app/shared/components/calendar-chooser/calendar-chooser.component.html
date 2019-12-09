@@ -21,6 +21,7 @@
            [class.disabled]="day.disabled"
            [class.active]="day.active"
            [class.selected]="day.selected"
+           (click)="select(day)"
       >
         <span>{{day.value | moment:'D'}}</span>
       </div>
