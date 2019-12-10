@@ -1,6 +1,5 @@
 import {BrowserModule} from '@angular/platform-browser'
 import {NgModule} from '@angular/core'
-
 import {AppRoutingModule} from './app-routing.module'
 import {AppComponent} from './app.component'
 import {HomePageComponent} from './pages/home-page/home-page.component'
@@ -17,6 +16,7 @@ import {ProjectPageComponent} from './pages/project-page/project-page.component'
 import {CalendarPageComponent} from './pages/calendar-page/calendar-page.component'
 import {MomentPipe} from './shared/pipes/moment/moment.pipe'
 import {CalendarChooserComponent} from './shared/components/calendar-chooser/calendar-chooser.component'
+import {ToMomentPipe} from './shared/pipes/toMoment/to-moment.pipe'
 
 @NgModule({
   declarations: [
@@ -31,7 +31,8 @@ import {CalendarChooserComponent} from './shared/components/calendar-chooser/cal
     TasksListComponent,
     CalendarPageComponent,
     CalendarChooserComponent,
-    MomentPipe
+    MomentPipe,
+    ToMomentPipe
   ],
   imports: [
     BrowserModule,

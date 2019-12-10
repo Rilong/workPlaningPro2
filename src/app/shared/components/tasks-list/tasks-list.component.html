@@ -20,7 +20,13 @@
                (keyup.enter)="task.show_edit = false" #input>
       </span>
       <ng-template #title>
-        <span (click)="showInput(idx)">{{task.title}}</span>
+        <span (click)="showInput(idx)">
+          {{task.title}}
+          <br>
+          <span class="date">
+            {{task.deadline_date ? (task.deadline_date | toMoment | moment:'DD.MM.YYYY') : null}}
+          </span>
+        </span>
       </ng-template>
     </span>
     <span class="controls" [class.show]="task.show_control">
