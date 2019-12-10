@@ -24,7 +24,7 @@
           {{task.title}}
           <br>
           <span class="date">
-            {{task.deadline_date ? (task.deadline_date | toMoment | moment:'DD.MM.YYYY') : null}}
+            {{task.deadline_date ? (task.deadline_date | toMoment | moment:'DD.MM.YYYY') : 'Дата не задана'}}
           </span>
         </span>
       </ng-template>
