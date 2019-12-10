@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core'
 import {ProjectService} from '../../shared/services/project/project.service'
-import {ActivatedRoute, Params, Router} from '@angular/router'
+import {ActivatedRoute, Params} from '@angular/router'
 import {TaskService} from '../../shared/services/task/task.service'
 import {ProjectAll} from '../../shared/interfaces/projectAll'
 import {Project} from '../../shared/interfaces/project'
@@ -9,12 +9,13 @@ import {CheckEvent} from '../../shared/interfaces/checkEvent'
 import {EditEvent} from '../../shared/interfaces/editEvent'
 import {Modal} from 'materialize-css'
 import {ModalInstance} from '../../shared/interfaces/modal'
-import * as moment from 'moment'
 import {Day} from '../../shared/interfaces/calendar/day'
+import {ToastService} from '../../shared/services/toast.service'
 
 interface Calendar {
-  value: Day
+  day: Day
   taskId: number
+  loading: boolean
 }
 
 @Component({
@@ -35,15 +36,16 @@ export class ProjectPageComponent implements OnInit, AfterViewInit, OnDestroy {
   showEditDesc = false
   calendarModalInstance: ModalInstance = null
   calendar: Calendar = {
-    value: null,
-    taskId: null
+    day: null,
+    taskId: null,
+    loading: false
   }
 
   constructor(
     private projectService: ProjectService,
     private taskService: TaskService,
     private route: ActivatedRoute,
-    private router: Router
+    private toastService: ToastService
   ) { }
 
   ngOnInit() {
@@ -153,6 +155,7 @@ export class ProjectPageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   calendarChooseOpen() {
+    console.log(!!this.calendar.day)
     this.calendarModalInstance.open()
   }
 
@@ -161,12 +164,27 @@ export class ProjectPageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   calendarChooserApply() {
-    this.calendar.value.selected = false
+    const deadline_date = this.calendar.day.value.format('YYYY-MM-DD HH:mm:SS')
+    this.calendar.loading = true
+
+    this.taskService.update(this.project.id, this.calendar.taskId, {deadline_date})
+      .subscribe(() => {
+        const taskIndex = this.tasks.findIndex((ts) => ts.id === this.calendar.taskId)
+
+        this.tasks[taskIndex].deadline_date = deadline_date
+        this.calendar.loading = false
+        this.calendar.taskId = null
+        this.calendar.day.selected = false
+        this.calendar.day = null
+
+        this.toastService.open('Дату встановлено', 'success')
+        this.calendarChooserClose()
+      }, () => this.calendar.loading = false)
   }
 
 
   calendarSelect(day: Day) {
-    this.calendar.value = day
+    this.calendar.day = day
   }
 
   ngOnDestroy(): void {

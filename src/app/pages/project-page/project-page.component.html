@@ -87,6 +87,7 @@
     <button class="modal-close waves-effect waves-red btn-flat red-text">Відміна</button>
     <button class="waves-effect waves-green btn-flat green-text"
             (click)="calendarChooserApply()"
+            [disabled]="!calendar.day || calendar.loading"
     >Вибрати дату</button>
   </div>
 </div>
