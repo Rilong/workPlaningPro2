@@ -12,6 +12,11 @@ import {ModalInstance} from '../../shared/interfaces/modal'
 import * as moment from 'moment'
 import {Day} from '../../shared/interfaces/calendar/day'
 
+interface Calendar {
+  value: Day
+  taskId: number
+}
+
 @Component({
   selector: 'app-project-page',
   templateUrl: './project-page.component.html',
@@ -29,8 +34,10 @@ export class ProjectPageComponent implements OnInit, AfterViewInit, OnDestroy {
   showEditName = false
   showEditDesc = false
   calendarModalInstance: ModalInstance = null
-  calendarValue: Day = null
-  calendarTaskId: number = null
+  calendar: Calendar = {
+    value: null,
+    taskId: null
+  }
 
   constructor(
     private projectService: ProjectService,
@@ -54,7 +61,7 @@ export class ProjectPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     this.calendarModalInstance = Modal.init(this.calendarModal.nativeElement, {
-      onCloseEnd: el => this.calendarTaskId = null
+      onCloseEnd: el => this.calendar.taskId = null
     })
   }
 
@@ -141,7 +148,7 @@ export class ProjectPageComponent implements OnInit, AfterViewInit, OnDestroy {
   * */
 
   calendarChoose(id: number) {
-    this.calendarTaskId = id
+    this.calendar.taskId = id
     this.calendarChooseOpen()
   }
 
@@ -154,12 +161,12 @@ export class ProjectPageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   calendarChooserApply() {
-    this.calendarValue.selected = false
+    this.calendar.value.selected = false
   }
 
 
   calendarSelect(day: Day) {
-    this.calendarValue = day
+    this.calendar.value = day
   }
 
   ngOnDestroy(): void {
