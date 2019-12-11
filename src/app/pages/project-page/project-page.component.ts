@@ -11,6 +11,7 @@ import {Modal} from 'materialize-css'
 import {ModalInstance} from '../../shared/interfaces/modal'
 import {Day} from '../../shared/interfaces/calendar/day'
 import {ToastService} from '../../shared/services/toast.service'
+import {CalendarChooseEvent} from '../../shared/interfaces/СalendarChooseEvent'
 
 interface Calendar {
   day: Day
@@ -164,7 +165,7 @@ export class ProjectPageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   calendarChooserApply() {
-    const deadline_date = this.calendar.day.value.format('YYYY-MM-DD HH:mm:SS')
+    const deadline_date = this.calendar.day.value.format('YYYY-MM-DD HH:mm:ss')
     this.calendar.loading = true
 
     this.taskService.update(this.project.id, this.calendar.taskId, {deadline_date})
@@ -182,6 +183,16 @@ export class ProjectPageComponent implements OnInit, AfterViewInit, OnDestroy {
       }, () => this.calendar.loading = false)
   }
 
+  calendarChooseQuick($event: CalendarChooseEvent) {
+    this.calendar.day = {
+      value: $event.date,
+      selected: false,
+      disabled: false,
+      active: false
+    }
+    this.calendar.taskId = $event.id
+    this.calendarChooserApply()
+  }
 
   calendarSelect(day: Day) {
     this.calendar.day = day
