@@ -22,26 +22,29 @@
       <ng-template #title>
         <span (click)="showInput(idx)">
           {{task.title}}
-          <br>
-          <span class="date">
-            {{task.deadline_date ? (task.deadline_date | toMoment | moment:'DD.MM.YYYY') : 'Дата не задана'}}
-          </span>
         </span>
       </ng-template>
     </span>
-    <span class="controls" [class.show]="task.show_control">
-      <button class="btn small waves-effect waves-light dropdown-trigger"
-              [attr.data-target]="'dropdown-calendar' + idx"
-              (click)="calendarChoose.emit(task.id)">
-        <app-icon>calendar_today</app-icon>
-      </button>
-       <ul [id]="'dropdown-calendar' + idx" class="dropdown-content">
-        <li><a href="#" (click)="chooseQuick($event, task.id, 'today')">На сьогодні</a></li>
-        <li><a href="#" (click)="chooseQuick($event, task.id, 'tomorrow')">На завтра</a></li>
-      </ul>
-      <button class="btn small red waves-effect waves-light" (click)="delete.emit(task.id)">
-        <app-icon>delete</app-icon>
-      </button>
+    <span class="controls-wrapper">
+      <span class="controls" [class.show]="task.show_control">
+        <span class="btns">
+              <button class="btn small waves-effect waves-light dropdown-trigger"
+                      [attr.data-target]="'dropdown-calendar' + idx"
+                      (click)="calendarChoose.emit(task.id)">
+                <app-icon>calendar_today</app-icon>
+              </button>
+               <ul [id]="'dropdown-calendar' + idx" class="dropdown-content">
+                <li><a href="#" (click)="chooseQuick($event, task.id, 'today')">На сьогодні</a></li>
+                <li><a href="#" (click)="chooseQuick($event, task.id, 'tomorrow')">На завтра</a></li>
+              </ul>
+              <button class="btn small red waves-effect waves-light" (click)="delete.emit(task.id)">
+                <app-icon>delete</app-icon>
+              </button>
+        </span>
+      </span>
+      <span class="date" *ngIf="!task.show_control">
+        {{task.deadline_date ? (task.deadline_date | toMoment | moment:'DD.MM.YYYY') : 'Дата не задана'}}
+      </span>
     </span>
   </li>
 </ul>

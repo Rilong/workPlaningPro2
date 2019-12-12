@@ -12,15 +12,24 @@
     .date
       color: #878787
       font-size: 13px
+      text-align: right
+      width: 147px
+      position: absolute
+      top: 50%
+      right: 0
+      transform: translateY(-50%)
     &.label
       width: 100%
     button
       margin-left: 5px
 
+  .controls-wrapper
+    position: relative
   .controls
     opacity: 0
     transition: opacity ease .3s
-
+    .btns
+      display: flex
     &.show
       opacity: 1
 
