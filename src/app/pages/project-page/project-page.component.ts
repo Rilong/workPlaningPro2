@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core'
+import {AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core'
 import {ProjectService} from '../../shared/services/project/project.service'
 import {ActivatedRoute, Params} from '@angular/router'
 import {TaskService} from '../../shared/services/task/task.service'
@@ -33,6 +33,9 @@ export class ProjectPageComponent implements OnInit, AfterViewInit, OnDestroy {
   project: Project
   tasks: Task[]
   loading = false
+  tasksLoading = false
+  nameLoading  = false
+  descLoading  = false
   showEditName = false
   showEditDesc = false
   calendarModalInstance: ModalInstance = null
@@ -81,7 +84,12 @@ export class ProjectPageComponent implements OnInit, AfterViewInit, OnDestroy {
   saveName(name: string) {
     this.showEditName = false
     this.project.name = name
-    this.projectService.update(this.project.id, {name}).subscribe()
+    this.nameLoading = true
+
+    this.projectService.update(this.project.id, {name}).subscribe(
+      () => this.nameLoading = false,
+      () => this.nameLoading = false
+    )
   }
 
   editDesc() {
@@ -92,7 +100,12 @@ export class ProjectPageComponent implements OnInit, AfterViewInit, OnDestroy {
   saveDesc(desc: string) {
     this.showEditDesc = false
     this.project.description = desc
-    this.projectService.update(this.project.id, {description: desc}).subscribe()
+    this.descLoading = true
+
+    this.projectService.update(this.project.id, {description: desc}).subscribe(
+      () => this.descLoading = false,
+      () => this.descLoading = false
+    )
   }
 
   /*
@@ -102,17 +115,26 @@ export class ProjectPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   checkToggle(check: CheckEvent) {
     const taskIndex = this.tasks.findIndex((ts) => ts.id === check.id)
+    this.tasksLoading = true
 
     this.taskService.toggleCheck(this.project.id, check.id, {check: check.checked})
-      .subscribe()
+      .subscribe(
+        () => this.tasksLoading = false,
+        () => this.tasksLoading = false
+      )
 
     this.tasks[taskIndex].is_done = check.checked ? 1 : 0
   }
 
   taskDelete(id: number) {
+    this.tasksLoading = true
+
     if (id > 0) {
       this.taskService.delete(this.project.id, id)
-        .subscribe()
+        .subscribe(
+          () => this.tasksLoading = false,
+          () => this.tasksLoading = false
+        )
     }
 
     this.tasks = this.tasks.filter((ts) => ts.id !== id)
@@ -131,18 +153,24 @@ export class ProjectPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   taskAddSave(task: Task) {
     const idx = this.tasks.findIndex(ts => ts.id === task.id)
+    this.tasksLoading = true
 
     this.taskService.create(this.project.id, task).subscribe((task) => {
+      this.tasksLoading = false
       this.tasks[idx] = task
-    })
+    }, () => this.tasksLoading = false)
 
   }
 
   taskEdit(values: EditEvent) {
     const idx = this.tasks.findIndex(ts => ts.id === values.id)
     this.tasks[idx].title = values.value
+    this.tasksLoading = true
     this.taskService.update(this.project.id, this.tasks[idx].id, {title: values.value})
-      .subscribe()
+      .subscribe(
+        () => this.tasksLoading = false,
+        () => this.tasksLoading = false
+      )
   }
 
   /*
@@ -196,6 +224,19 @@ export class ProjectPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   calendarSelect(day: Day) {
     this.calendar.day = day
+  }
+
+  isLoading(): boolean {
+    return this.loading || this.nameLoading || this.descLoading || this.tasksLoading || this.calendar.loading
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+  unloadNotification($event: Event) {
+    $event.preventDefault()
+
+    if (this.isLoading()) {
+      $event.returnValue = true
+    }
   }
 
   ngOnDestroy(): void {
