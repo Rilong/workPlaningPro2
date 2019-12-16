@@ -1,6 +1,7 @@
 export interface Task {
   id?: number
   title?: string
+  user_id?: number
   project_id?: number
   parent_id?: number
   is_done?: number

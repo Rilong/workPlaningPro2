@@ -143,6 +143,7 @@ export class ProjectPageComponent implements OnInit, AfterViewInit, OnDestroy {
   taskAdd() {
     const newTask: Task = {
       id: 0,
+      user_id: this.project.user_id,
       title: '',
       is_done: 0,
       show_edit: true,
