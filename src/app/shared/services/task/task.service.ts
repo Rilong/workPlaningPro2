@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http'
+import {HttpClient, HttpParams} from '@angular/common/http'
 import {Observable} from 'rxjs'
 import {Task} from '../../interfaces/task'
 import {environment} from '../../../../environments/environment'
@@ -11,7 +11,13 @@ export class TaskService {
 
   constructor(private http: HttpClient) { }
 
-  getAll(projectId: number): Observable<Task[]> {
+  getAllByUser(userId: number, date: string): Observable<Task[]> {
+    const params = new HttpParams()
+      .set('date', encodeURI(date))
+    return this.http.get<Task[]>(`${environment.server_url}/user/${userId}/tasks`, {params})
+  }
+
+  getAllByProject(projectId: number): Observable<Task[]> {
     return this.http.get<Task[]>(`${environment.server_url}/projects/${projectId}/tasks`)
   }
 

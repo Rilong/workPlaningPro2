@@ -12,6 +12,7 @@ import {ModalInstance} from '../../shared/interfaces/modal'
 import {Day} from '../../shared/interfaces/calendar/day'
 import {ToastService} from '../../shared/services/toast.service'
 import {CalendarChooseEvent} from '../../shared/interfaces/СalendarChooseEvent'
+import {environment} from '../../../environments/environment'
 
 interface Calendar {
   day: Day
@@ -194,7 +195,7 @@ export class ProjectPageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   calendarChooserApply() {
-    const deadline_date = this.calendar.day.value.format('YYYY-MM-DD HH:mm:ss')
+    const deadline_date = this.calendar.day.value.format(environment.server_date_format)
     this.calendar.loading = true
 
     this.taskService.update(this.project.id, this.calendar.taskId, {deadline_date})
