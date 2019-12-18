@@ -20,7 +20,7 @@ export class CalendarPageComponent implements OnInit, OnDestroy {
   dSub: Subscription
   tSub: Subscription
   user: User
-  tasks: Task[]
+  tasks: Task[] = []
   daysOfWeek: string[]
   calendar: Week[]
   loadingTasks = false
@@ -44,12 +44,23 @@ export class CalendarPageComponent implements OnInit, OnDestroy {
   }
 
   go(direction: number = 1) {
+    if (this.tSub) {
+      this.tSub.unsubscribe()
+    }
     this.calendarService.changeMouth(direction)
+  }
+
+  filterTasksByDate(date: moment.Moment) {
+    return this.tasks.filter(t => moment(t.deadline_date).isSame(date, 'day'))
   }
 
   ngOnDestroy(): void {
     if(this.dSub) {
       this.dSub.unsubscribe()
+    }
+
+    if (this.tSub) {
+      this.tSub.unsubscribe()
     }
   }
 }
