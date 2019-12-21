@@ -6,6 +6,7 @@ import {ReverseAuthGuard} from './shared/reverse-auth.guard'
 import {ProjectPageComponent} from './pages/project-page/project-page.component'
 import {CalendarPageComponent} from './pages/calendar-page/calendar-page.component'
 import {ProjectSaveGuard} from './shared/project-save.guard'
+import {CalendarViewPageComponent} from './pages/calendar-view-page/calendar-view-page.component'
 
 
 const routes: Routes = [
@@ -13,7 +14,8 @@ const routes: Routes = [
   {path: 'login', loadChildren: './pages/login-page/login-page.module#LoginPageModule', canLoad: [ReverseAuthGuard]},
   {path: 'register', loadChildren: './pages/register-page/register-page.module#RegisterPageModule', canLoad: [ReverseAuthGuard]},
   {path: 'project/:id', component: ProjectPageComponent, canActivate: [AuthGuard], canDeactivate: [ProjectSaveGuard]},
-  {path: 'calendar', component: CalendarPageComponent, canActivate: [AuthGuard]}
+  {path: 'calendar', component: CalendarPageComponent, canActivate: [AuthGuard]},
+  {path: 'calendar/:date', component: CalendarViewPageComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({

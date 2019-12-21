@@ -16,7 +16,8 @@ import {ProjectPageComponent} from './pages/project-page/project-page.component'
 import {CalendarPageComponent} from './pages/calendar-page/calendar-page.component'
 import {MomentPipe} from './shared/pipes/moment/moment.pipe'
 import {CalendarChooserComponent} from './shared/components/calendar-chooser/calendar-chooser.component'
-import {ToMomentPipe} from './shared/pipes/toMoment/to-moment.pipe'
+import {ToMomentPipe} from './shared/pipes/toMoment/to-moment.pipe';
+import { CalendarViewPageComponent } from './pages/calendar-view-page/calendar-view-page.component'
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import {ToMomentPipe} from './shared/pipes/toMoment/to-moment.pipe'
     CalendarPageComponent,
     CalendarChooserComponent,
     MomentPipe,
-    ToMomentPipe
+    ToMomentPipe,
+    CalendarViewPageComponent
   ],
   imports: [
     BrowserModule,
