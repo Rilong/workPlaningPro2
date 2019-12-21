@@ -4,6 +4,11 @@ import {Observable} from 'rxjs'
 import {Task} from '../../interfaces/task'
 import {environment} from '../../../../environments/environment'
 
+interface Filter {
+  date?: string
+  date_month?: string
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -11,9 +16,16 @@ export class TaskService {
 
   constructor(private http: HttpClient) { }
 
-  getAllByUser(userId: number, date: string): Observable<Task[]> {
-    const params = new HttpParams()
-      .set('date', encodeURI(date))
+  getAllByUser(userId: number, filter: Filter): Observable<Task[]> {
+    let params = new HttpParams()
+
+    if (filter.date_month) {
+      params = params.append('date_month', encodeURI(filter.date_month))
+    }
+
+    if (filter.date) {
+      params = params.append('date', encodeURI(filter.date))
+    }
     return this.http.get<Task[]>(`${environment.server_url}/user/${userId}/tasks`, {params})
   }
 
