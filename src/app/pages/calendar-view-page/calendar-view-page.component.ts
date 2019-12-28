@@ -61,4 +61,8 @@ export class CalendarViewPageComponent implements OnInit, OnDestroy {
   calendarChoose($event: number) {
 
   }
+
+  updateTask(tasks: Task[]) {
+    this.tasks = tasks
+  }
 }
