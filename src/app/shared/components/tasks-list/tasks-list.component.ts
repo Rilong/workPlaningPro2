@@ -118,7 +118,7 @@ export class TasksListComponent implements OnInit, AfterViewInit, OnChanges, OnD
   }
 
   calendarChooserApply() {
-    const projectId = this.tasks[this.calendar.taskId].project_id
+    const projectId = this.tasks.find(ts => ts.id === this.calendar.taskId).project_id
     const deadline_date = this.calendar.day.value.format(environment.server_date_format)
     this.calendar.loading = true
 
