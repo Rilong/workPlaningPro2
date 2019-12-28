@@ -175,14 +175,18 @@ export class ProjectPageComponent implements OnInit, AfterViewInit, OnDestroy {
       )
   }
 
+  taskUpdate(tasks: Task[]) {
+    this.tasks = tasks
+  }
+
   /*
   *
   * Calendar
   * */
 
-  calendarChoose(id: number) {
-    this.calendar.taskId = id
-    this.calendarChooseOpen()
+
+  calendarSelect(day: Day) {
+    this.calendar.day = day
   }
 
   calendarChooseOpen() {
@@ -194,39 +198,10 @@ export class ProjectPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.calendarModalInstance.close()
   }
 
-  calendarChooserApply() {
-    const deadline_date = this.calendar.day.value.format(environment.server_date_format)
-    this.calendar.loading = true
-
-    this.taskService.update(this.project.id, this.calendar.taskId, {deadline_date})
-      .subscribe(() => {
-        const taskIndex = this.tasks.findIndex((ts) => ts.id === this.calendar.taskId)
-
-        this.tasks[taskIndex].deadline_date = deadline_date
-        this.calendar.loading = false
-        this.calendar.taskId = null
-        this.calendar.day.selected = false
-        this.calendar.day = null
-
-        this.toastService.open('Дату встановлено', 'success')
-        this.calendarChooserClose()
-      }, () => this.calendar.loading = false)
-  }
-
-  calendarChooseQuick($event: CalendarChooseEvent) {
-    this.calendar.day = {
-      value: $event.date,
-      selected: false,
-      disabled: false,
-      active: false
-    }
-    this.calendar.taskId = $event.id
-    this.calendarChooserApply()
-  }
-
-  calendarSelect(day: Day) {
-    this.calendar.day = day
-  }
+  /**
+   *
+   * Loading the project
+   */
 
   isLoading(): boolean {
     return this.loading || this.nameLoading || this.descLoading || this.tasksLoading || this.calendar.loading

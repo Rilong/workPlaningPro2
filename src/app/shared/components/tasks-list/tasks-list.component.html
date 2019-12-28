@@ -30,7 +30,7 @@
         <span class="btns">
               <button class="btn small waves-effect waves-light dropdown-trigger"
                       [attr.data-target]="'dropdown-calendar' + idx"
-                      (click)="calendarChoose.emit(task.id)">
+                      (click)="calendarChoose(task.id)">
                 <app-icon>calendar_today</app-icon>
               </button>
                <ul [id]="'dropdown-calendar' + idx" class="dropdown-content">
@@ -51,3 +51,21 @@
 <ng-template #noTasks>
   <p class="center-align">Немає завдань</p>
 </ng-template>
+
+<div id="calendarModal" class="modal" #calendarModal>
+  <div class="modal-content">
+    <h4>Вибір дати</h4>
+    <div class="row">
+      <div class="col s12">
+        <app-calendar-chooser (choose)="calendarSelect($event)"></app-calendar-chooser>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="modal-close waves-effect waves-red btn-flat red-text">Відміна</button>
+    <button class="waves-effect waves-green btn-flat green-text"
+            (click)="calendarChooserApply()"
+            [disabled]="!calendar.day || calendar.loading"
+    >Вибрати дату</button>
+  </div>
+</div>
