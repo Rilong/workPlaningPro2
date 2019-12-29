@@ -148,6 +148,8 @@ export class ProjectPageComponent implements OnInit, AfterViewInit, OnDestroy {
       title: '',
       is_done: 0,
       show_edit: true,
+      show_control: null,
+      project_id: null
     }
     this.tasks.push(newTask)
   }
@@ -159,7 +161,11 @@ export class ProjectPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.taskService.create(this.project.id, task).subscribe((task) => {
       this.tasksLoading = false
-      this.tasks[idx] = task
+      Object.keys(this.tasks[idx]).forEach(key => {
+        if (task[key]) {
+          this.tasks[idx][key] = task[key]
+        }
+      })
     }, () => this.tasksLoading = false)
 
   }

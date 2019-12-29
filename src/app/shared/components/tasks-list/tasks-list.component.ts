@@ -142,7 +142,7 @@ export class TasksListComponent implements OnInit, AfterViewInit, OnChanges, OnD
     this.calendar.day = day
   }
 
-  ngAfterViewInit(): void {
+  dropdownInit() {
     const elems = document.querySelectorAll('.dropdown-trigger')
 
     Dropdown.init(elems, {
@@ -151,6 +151,10 @@ export class TasksListComponent implements OnInit, AfterViewInit, OnChanges, OnD
       hover: true,
       coverTrigger: false
     })
+  }
+
+  ngAfterViewInit(): void {
+    this.dropdownInit()
 
     this.calendarModalInstance = Modal.init(this.calendarModal.nativeElement, {
       onCloseEnd: el => this.calendar.taskId = null
@@ -159,7 +163,10 @@ export class TasksListComponent implements OnInit, AfterViewInit, OnChanges, OnD
 
   ngOnChanges(changes: SimpleChanges): void {
     if (!changes.tasks.isFirstChange() && changes.tasks.currentValue.length > changes.tasks.previousValue.length) {
-      setTimeout(() => this.input.nativeElement.focus(), 0)
+      setTimeout(() => {
+        this.dropdownInit()
+        this.input.nativeElement.focus()
+      }, 0)
     }
   }
 
