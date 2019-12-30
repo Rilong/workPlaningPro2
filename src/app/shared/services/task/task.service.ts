@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http'
-import {Observable} from 'rxjs'
+import {Observable, Subject} from 'rxjs'
 import {Task} from '../../interfaces/task'
 import {environment} from '../../../../environments/environment'
+import {UserService} from '../user/user.service'
 
 interface Filter {
   date?: string
@@ -14,7 +15,10 @@ interface Filter {
 })
 export class TaskService {
 
-  constructor(private http: HttpClient) { }
+  tasks: Task[] = []
+  tasksChange: Subject<null> = new Subject<null>()
+
+  constructor(private http: HttpClient, private userService: UserService) { }
 
   getAllByUser(userId: number, filter: Filter): Observable<Task[]> {
     let params = new HttpParams()
@@ -47,5 +51,19 @@ export class TaskService {
 
   delete(projectId: number, taskId: number): Observable<string> {
     return this.http.delete<string>(`${environment.server_url}/projects/${projectId}/tasks/${taskId}`)
+  }
+
+  addNewTask(projectId: number = null) {
+    const newTask: Task = {
+      id: 0,
+      user_id: this.userService.getUser().id,
+      title: '',
+      is_done: 0,
+      show_edit: true,
+      show_control: null,
+      project_id: projectId
+    }
+    this.tasks.push(newTask)
+    this.tasksChange.next()
   }
 }

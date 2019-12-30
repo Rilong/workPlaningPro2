@@ -53,14 +53,8 @@
               <div class="row">
                 <div class="col s12">
                   <h5>Завдання</h5>
-                  <app-tasks-list [tasks]="tasks.concat()"
-                                  (check)="checkToggle($event)"
-                                  (delete)="taskDelete($event)"
-                                  (edit)="taskEdit($event)"
-                                  (save)="taskAddSave($event)"
-                                  (update)="taskUpdate($event)"
-                  ></app-tasks-list>
-                  <button class="waves-effect waves-light btn" (click)="taskAdd()">Додати завдання</button>
+                  <app-tasks-list></app-tasks-list>
+                  <button class="waves-effect waves-light btn" (click)="taskService.addNewTask(project.id)">Додати завдання</button>
                 </div>
               </div>
             </div>

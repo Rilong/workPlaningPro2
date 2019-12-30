@@ -2,13 +2,10 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
-  EventEmitter,
-  Input,
-  OnChanges,
+  EventEmitter, HostListener,
   OnDestroy,
   OnInit,
   Output,
-  SimpleChanges,
   ViewChild
 } from '@angular/core'
 import {Task} from '../../interfaces/task'
@@ -35,48 +32,114 @@ interface Calendar {
   templateUrl: './tasks-list.component.html',
   styleUrls: ['./tasks-list.component.sass']
 })
-export class TasksListComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
+export class TasksListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   calendar: Calendar = {
     day: null,
     taskId: null,
     loading: false
   }
-  calendarModalInstance: ModalInstance = null
+  private calendarModalInstance: ModalInstance = null
+  private keys: number[] = []
 
   private uSub: Subscription
+  private uSub2: Subscription
+  private sSub: Subscription
+  private cSub: Subscription
 
-  @Input() tasks: Task[]
-  @Output() check: EventEmitter<CheckEvent> = new EventEmitter<CheckEvent>()
-  @Output() delete: EventEmitter<number> = new EventEmitter<number>()
-  @Output() edit: EventEmitter<EditEvent> = new EventEmitter<EditEvent>()
-  @Output() save: EventEmitter<Task> = new EventEmitter<Task>()
-
+  private tasksLoading = false
   @Output() update: EventEmitter<Task[]> = new EventEmitter<Task[]>()
+
   @ViewChild('input', {static: false}) input: ElementRef<HTMLInputElement>
   @ViewChild('calendarModal', {static: false}) calendarModal: ElementRef<HTMLDivElement>
 
   constructor(private taskService: TaskService, private toastService: ToastService) { }
 
   ngOnInit() {
+    this.generateKeys()
+    this.sSub = this.taskService.tasksChange.subscribe(() => {
+      setTimeout(() => this.input.nativeElement.focus(), 0)
+    })
   }
 
   showInput(idx: number) {
-    this.tasks[idx].show_edit = true
+    this.taskService.tasks[idx].show_edit = true
     setTimeout(() => this.input.nativeElement.focus(), 0)
   }
 
+  checkToggle(check: CheckEvent) {
+    const idx = this.taskService.tasks.findIndex((ts) => ts.id === check.id)
+    this.tasksLoading = true
+
+    this.taskService.toggleCheck(this.taskService.tasks[idx].project_id, check.id, {check: check.checked})
+      .subscribe(
+        () => this.tasksLoading = false,
+        () => this.tasksLoading = false
+      )
+
+    this.taskService.tasks[idx].is_done = check.checked ? 1 : 0
+  }
+
+  /**
+   *
+   * Tasks
+   */
+
+  taskDelete(id: number) {
+    this.tasksLoading = true
+    const projectId = this.taskService.tasks.find((ts) => ts.id === id).project_id
+    if (id > 0) {
+      this.taskService.delete(projectId, id)
+        .subscribe(
+          () => this.tasksLoading = false,
+          () => this.tasksLoading = false
+        )
+    }
+
+    this.taskService.tasks = this.taskService.tasks.filter((ts) => ts.id !== id)
+  }
+
+  taskAddSave(task: Task) {
+    const idx = this.taskService.tasks.findIndex(ts => ts.id === task.id)
+    this.tasksLoading = true
+
+    this.cSub = this.taskService.create(this.taskService.tasks[idx].project_id, task).subscribe((task) => {
+      this.tasksLoading = false
+      this.taskService.tasks[idx] = task
+      setTimeout(() => this.dropdownInit(), 0)
+    }, () => this.tasksLoading = false)
+
+  }
+
+  taskEdit(values: EditEvent) {
+    const idx = this.taskService.tasks.findIndex(ts => ts.id === values.id)
+    this.taskService.tasks[idx].title = values.value
+    this.tasksLoading = true
+    this.uSub = this.taskService.update(this.taskService.tasks[idx].project_id, this.taskService.tasks[idx].id, {title: values.value})
+      .subscribe(
+        () => this.tasksLoading = false,
+        () => this.tasksLoading = false
+      )
+  }
+
   saveTask(value: string, idx: number) {
-    this.tasks[idx].show_edit = false
+    this.taskService.tasks[idx].show_edit = false
     if (value.trim()) {
-      if (this.tasks[idx].id > 0) {
-        this.edit.emit({value, id: this.tasks[idx].id})
+      const id = this.taskService.tasks[idx].id
+      if (id > 0) {
+        this.taskEdit({id, value})
       } else {
-        this.tasks[idx].title = value
-        this.save.emit(this.tasks[idx])
+        this.taskService.tasks[idx].title = value
+        this.taskAddSave(this.taskService.tasks[idx])
       }
     }
   }
+
+  /**
+   *
+   * Calendar
+   *
+   */
 
   chooseQuick($event: Event, id: number, day: string = 'today') {
     $event.preventDefault()
@@ -118,28 +181,34 @@ export class TasksListComponent implements OnInit, AfterViewInit, OnChanges, OnD
   }
 
   calendarChooserApply() {
-    const projectId = this.tasks.find(ts => ts.id === this.calendar.taskId).project_id
+    const projectId = this.taskService.tasks.find(ts => ts.id === this.calendar.taskId).project_id
     const deadline_date = this.calendar.day.value.format(environment.server_date_format)
     this.calendar.loading = true
 
-    this.uSub = this.taskService.update(projectId, this.calendar.taskId, {deadline_date})
+    this.uSub2 = this.taskService.update(projectId, this.calendar.taskId, {deadline_date})
       .subscribe(() => {
-        const taskIndex = this.tasks.findIndex((ts) => ts.id === this.calendar.taskId)
+        const taskIndex = this.taskService.tasks.findIndex((ts) => ts.id === this.calendar.taskId)
 
-        this.tasks[taskIndex].deadline_date = deadline_date
+        this.taskService.tasks[taskIndex].deadline_date = deadline_date
         this.calendar.loading = false
         this.calendar.taskId = null
         this.calendar.day.selected = false
         this.calendar.day = null
 
         this.toastService.open('Дату встановлено', 'success')
-        this.update.emit(this.tasks.concat())
+        this.update.emit(this.taskService.tasks.concat())
         this.calendarChooserClose()
       }, () => this.calendar.loading = false)
   }
 
   calendarSelect(day: Day) {
     this.calendar.day = day
+  }
+
+  generateKeys() {
+    this.taskService.tasks.forEach((task, idx) => {
+      this.keys[idx] = Math.random()
+    })
   }
 
   dropdownInit() {
@@ -161,18 +230,30 @@ export class TasksListComponent implements OnInit, AfterViewInit, OnChanges, OnD
     })
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (!changes.tasks.isFirstChange() && changes.tasks.currentValue.length > changes.tasks.previousValue.length) {
-      setTimeout(() => {
-        this.dropdownInit()
-        this.input.nativeElement.focus()
-      }, 0)
+  @HostListener('window:beforeunload', ['$event'])
+  unloadNotification($event: Event) {
+    $event.preventDefault()
+
+    if (this.tasksLoading) {
+      $event.returnValue = true
     }
   }
 
   ngOnDestroy(): void {
     if (this.uSub) {
       this.uSub.unsubscribe()
+    }
+
+    if (this.uSub2) {
+      this.uSub2.unsubscribe()
+    }
+
+    if (this.sSub) {
+      this.sSub.unsubscribe()
+    }
+
+    if (this.cSub) {
+      this.cSub.unsubscribe()
     }
   }
 }

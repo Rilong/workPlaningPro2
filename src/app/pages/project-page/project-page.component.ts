@@ -61,7 +61,7 @@ export class ProjectPageComponent implements OnInit, AfterViewInit, OnDestroy {
         .subscribe((projectAll: ProjectAll) => {
           this.loading = false
           this.project = projectAll.project
-          this.tasks = projectAll.tasks
+          this.taskService.tasks = projectAll.tasks
       }, () => this.loading = false)
     })
   }
@@ -111,82 +111,6 @@ export class ProjectPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   /*
   *
-  * Task
-  * */
-
-  checkToggle(check: CheckEvent) {
-    const taskIndex = this.tasks.findIndex((ts) => ts.id === check.id)
-    this.tasksLoading = true
-
-    this.taskService.toggleCheck(this.project.id, check.id, {check: check.checked})
-      .subscribe(
-        () => this.tasksLoading = false,
-        () => this.tasksLoading = false
-      )
-
-    this.tasks[taskIndex].is_done = check.checked ? 1 : 0
-  }
-
-  taskDelete(id: number) {
-    this.tasksLoading = true
-
-    if (id > 0) {
-      this.taskService.delete(this.project.id, id)
-        .subscribe(
-          () => this.tasksLoading = false,
-          () => this.tasksLoading = false
-        )
-    }
-
-    this.tasks = this.tasks.filter((ts) => ts.id !== id)
-  }
-
-  taskAdd() {
-    const newTask: Task = {
-      id: 0,
-      user_id: this.project.user_id,
-      title: '',
-      is_done: 0,
-      show_edit: true,
-      show_control: null,
-      project_id: null
-    }
-    this.tasks.push(newTask)
-  }
-
-
-  taskAddSave(task: Task) {
-    const idx = this.tasks.findIndex(ts => ts.id === task.id)
-    this.tasksLoading = true
-
-    this.taskService.create(this.project.id, task).subscribe((task) => {
-      this.tasksLoading = false
-      Object.keys(this.tasks[idx]).forEach(key => {
-        if (task[key]) {
-          this.tasks[idx][key] = task[key]
-        }
-      })
-    }, () => this.tasksLoading = false)
-
-  }
-
-  taskEdit(values: EditEvent) {
-    const idx = this.tasks.findIndex(ts => ts.id === values.id)
-    this.tasks[idx].title = values.value
-    this.tasksLoading = true
-    this.taskService.update(this.project.id, this.tasks[idx].id, {title: values.value})
-      .subscribe(
-        () => this.tasksLoading = false,
-        () => this.tasksLoading = false
-      )
-  }
-
-  taskUpdate(tasks: Task[]) {
-    this.tasks = tasks
-  }
-
-  /*
-  *
   * Calendar
   * */
 
@@ -210,7 +134,7 @@ export class ProjectPageComponent implements OnInit, AfterViewInit, OnDestroy {
    */
 
   isLoading(): boolean {
-    return this.loading || this.nameLoading || this.descLoading || this.tasksLoading || this.calendar.loading
+    return this.loading || this.nameLoading || this.descLoading || this.calendar.loading
   }
 
   @HostListener('window:beforeunload', ['$event'])
@@ -226,5 +150,6 @@ export class ProjectPageComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.calendarModalInstance) {
       this.calendarModalInstance.destroy()
     }
+    this.taskService.tasks = []
   }
 }

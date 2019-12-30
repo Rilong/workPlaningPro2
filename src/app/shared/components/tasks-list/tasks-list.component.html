@@ -1,6 +1,6 @@
-<ul class="collection" *ngIf="tasks && tasks.length; else noTasks">
+<ul class="collection" *ngIf="taskService.tasks && taskService.tasks.length; else noTasks">
   <li class="collection-item"
-      *ngFor="let task of tasks; let idx = index"
+      *ngFor="let task of taskService.tasks; let idx = index"
       (mouseenter)="task.show_control = true"
       (mouseleave)="task.show_control = false"
   >
@@ -8,7 +8,7 @@
       <label>
           <span>
           <input type="checkbox"
-                 (click)="check.emit({id: task.id, checked: $event.target['checked']})"
+                 (click)="checkToggle({id: task.id, checked: $event.target['checked']})"
                  [checked]="task.is_done"/>
             <span></span>
           </span>
@@ -29,15 +29,15 @@
       <span class="controls" [class.show]="task.show_control">
         <span class="btns">
               <button class="btn small waves-effect waves-light dropdown-trigger"
-                      [attr.data-target]="'dropdown-calendar' + idx"
+                      [attr.data-target]="'dropdown-calendar' + task.id"
                       (click)="calendarChoose(task.id)">
                 <app-icon>calendar_today</app-icon>
               </button>
-               <ul [id]="'dropdown-calendar' + idx" class="dropdown-content">
+               <ul [id]="'dropdown-calendar' + task.id" class="dropdown-content">
                 <li><a href="#" (click)="chooseQuick($event, task.id, 'today')">На сьогодні</a></li>
                 <li><a href="#" (click)="chooseQuick($event, task.id, 'tomorrow')">На завтра</a></li>
               </ul>
-              <button class="btn small red waves-effect waves-light" (click)="delete.emit(task.id)">
+              <button class="btn small red waves-effect waves-light" (click)="taskDelete(task.id)">
                 <app-icon>delete</app-icon>
               </button>
         </span>
