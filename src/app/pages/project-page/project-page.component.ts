@@ -5,14 +5,10 @@ import {TaskService} from '../../shared/services/task/task.service'
 import {ProjectAll} from '../../shared/interfaces/projectAll'
 import {Project} from '../../shared/interfaces/project'
 import {Task} from '../../shared/interfaces/task'
-import {CheckEvent} from '../../shared/interfaces/checkEvent'
-import {EditEvent} from '../../shared/interfaces/editEvent'
 import {Modal} from 'materialize-css'
 import {ModalInstance} from '../../shared/interfaces/modal'
 import {Day} from '../../shared/interfaces/calendar/day'
 import {ToastService} from '../../shared/services/toast.service'
-import {CalendarChooseEvent} from '../../shared/interfaces/СalendarChooseEvent'
-import {environment} from '../../../environments/environment'
 
 interface Calendar {
   day: Day
