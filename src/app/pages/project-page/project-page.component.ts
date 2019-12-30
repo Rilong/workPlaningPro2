@@ -30,7 +30,6 @@ export class ProjectPageComponent implements OnInit, AfterViewInit, OnDestroy {
   project: Project
   tasks: Task[]
   loading = false
-  tasksLoading = false
   nameLoading  = false
   descLoading  = false
   showEditName = false

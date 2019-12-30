@@ -67,6 +67,12 @@ export class TasksListComponent implements OnInit, AfterViewInit, OnDestroy {
     setTimeout(() => this.input.nativeElement.focus(), 0)
   }
 
+
+  /**
+   *
+   * Tasks
+   */
+
   checkToggle(check: CheckEvent) {
     const idx = this.taskService.tasks.findIndex((ts) => ts.id === check.id)
     this.tasksLoading = true
@@ -79,11 +85,6 @@ export class TasksListComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.taskService.tasks[idx].is_done = check.checked ? 1 : 0
   }
-
-  /**
-   *
-   * Tasks
-   */
 
   taskDelete(id: number) {
     this.tasksLoading = true
@@ -156,7 +157,6 @@ export class TasksListComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
   calendarChooseOpen() {
-    console.log(!!this.calendar.day)
     this.calendarModalInstance.open()
   }
 
