@@ -17,15 +17,15 @@ import {Task} from '../../shared/interfaces/task'
 })
 export class CalendarPageComponent implements OnInit, OnDestroy {
 
+  public daysOfWeek: string[]
+  public calendar: Week[]
   dSub: Subscription
   tSub: Subscription
   user: User
   tasks: Task[] = []
-  daysOfWeek: string[]
-  calendar: Week[]
   loadingTasks = false
 
-  constructor(private calendarService: CalendarService,
+  constructor(public calendarService: CalendarService,
               private taskService: TaskService,
               private userService: UserService) { }
 

@@ -40,7 +40,6 @@ export class TasksListComponent implements OnInit, AfterViewInit, OnDestroy {
     loading: false
   }
   private calendarModalInstance: ModalInstance = null
-  private keys: number[] = []
 
   private uSub: Subscription
   private uSub2: Subscription
@@ -53,10 +52,9 @@ export class TasksListComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('input', {static: false}) input: ElementRef<HTMLInputElement>
   @ViewChild('calendarModal', {static: false}) calendarModal: ElementRef<HTMLDivElement>
 
-  constructor(private taskService: TaskService, private toastService: ToastService) { }
+  constructor(public taskService: TaskService, private toastService: ToastService) { }
 
   ngOnInit() {
-    this.generateKeys()
     this.sSub = this.taskService.tasksChange.subscribe(() => {
       setTimeout(() => this.input.nativeElement.focus(), 0)
     })
@@ -203,12 +201,6 @@ export class TasksListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   calendarSelect(day: Day) {
     this.calendar.day = day
-  }
-
-  generateKeys() {
-    this.taskService.tasks.forEach((task, idx) => {
-      this.keys[idx] = Math.random()
-    })
   }
 
   dropdownInit() {

@@ -43,7 +43,7 @@ export class ProjectPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   constructor(
     private projectService: ProjectService,
-    private taskService: TaskService,
+    public taskService: TaskService,
     private route: ActivatedRoute,
     private toastService: ToastService
   ) { }
@@ -123,6 +123,10 @@ export class ProjectPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.calendarModalInstance.close()
   }
 
+  calendarChooserApply() {
+
+  }
+
   /**
    *
    * Loading the project
@@ -147,4 +151,5 @@ export class ProjectPageComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     this.taskService.tasks = []
   }
+
 }

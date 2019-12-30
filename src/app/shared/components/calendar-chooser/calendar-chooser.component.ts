@@ -13,12 +13,13 @@ import {Day} from '../../interfaces/calendar/day'
 })
 export class CalendarChooserComponent implements OnInit, OnDestroy {
 
+  public calendar: Week[]
+  public daysOfWeek: string[] = null
+
   private dSub: Subscription
-  private calendar: Week[]
-  private daysOfWeek: string[] = null
   @Output() choose: EventEmitter<Day> = new EventEmitter<Day>()
 
-  constructor(private calendarService: CalendarService) { }
+  constructor(public calendarService: CalendarService) { }
 
   ngOnInit() {
     this.daysOfWeek = moment.weekdaysShort()
