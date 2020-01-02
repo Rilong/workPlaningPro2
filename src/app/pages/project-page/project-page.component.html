@@ -12,7 +12,7 @@
               <div class="input-field outline col s12">
                 <input id="name" type="text"
                        (blur)="saveName($event.target['value'])"
-                       (keyup.enter)="showEditName = false"
+                       (keyup.enter)="saveName($event.target['value'])"
                        [value]="project.name"
                        #nameInput>
                 <label for="name">Назва проекту</label>

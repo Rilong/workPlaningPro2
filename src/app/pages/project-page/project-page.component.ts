@@ -78,14 +78,16 @@ export class ProjectPageComponent implements OnInit, AfterViewInit, OnDestroy {
   * */
 
   saveName(name: string) {
-    this.showEditName = false
-    this.project.name = name
-    this.nameLoading = true
+    if (!this.nameLoading) {
+      this.showEditName = false
+      this.project.name = name
+      this.nameLoading = true
 
-    this.projectService.update(this.project.id, {name}).subscribe(
-      () => this.nameLoading = false,
-      () => this.nameLoading = false
-    )
+      this.projectService.update(this.project.id, {name}).subscribe(
+        () => this.nameLoading = false,
+        () => this.nameLoading = false
+      )
+    }
   }
 
   editDesc() {

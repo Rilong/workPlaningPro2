@@ -17,7 +17,7 @@
         <input type="text"
                [value]="task.title"
                (blur)="saveTask($event.target['value'], idx)"
-               (keyup.enter)="task.show_edit = false" #input>
+               (keyup.enter)="saveTask($event.target['value'], idx)" #input>
       </span>
       <ng-template #title>
         <span (click)="showInput(idx)">

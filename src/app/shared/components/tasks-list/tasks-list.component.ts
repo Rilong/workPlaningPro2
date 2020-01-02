@@ -122,9 +122,9 @@ export class TasksListComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   saveTask(value: string, idx: number) {
-    this.taskService.tasks[idx].show_edit = false
-    if (value.trim()) {
+    if (value.trim() && !this.tasksLoading) {
       const id = this.taskService.tasks[idx].id
+      this.taskService.tasks[idx].show_edit = false
       if (id > 0) {
         this.taskEdit({id, value})
       } else {
