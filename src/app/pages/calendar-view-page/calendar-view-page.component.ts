@@ -35,7 +35,7 @@ export class CalendarViewPageComponent implements OnInit, OnDestroy {
         date: date.format(environment.server_date_format)
       }).subscribe(tasks => {
         this.loading = false
-        this.tasks = tasks
+        this.taskService.tasks = tasks
       }, () => this.loading = false)
     })
   }
@@ -44,6 +44,7 @@ export class CalendarViewPageComponent implements OnInit, OnDestroy {
     if (this.tSub) {
       this.tSub.unsubscribe()
     }
+    this.taskService.tasks = []
   }
 
   checkToggle($event: CheckEvent) {
