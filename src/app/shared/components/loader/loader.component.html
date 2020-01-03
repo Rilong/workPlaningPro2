@@ -1,7 +1,7 @@
 <div class="progress teal darken-2" *ngIf="show && type === 'indeterminate'">
   <div class="indeterminate teal lighten-3"></div>
 </div>
-<div *ngIf="type === 'spinner'">
+<div *ngIf="type === 'spinner' && show">
   <div class="preloader-wrapper active" [ngClass]="size">
     <div class="spinner-layer spinner-blue-only">
       <div class="circle-clipper left">
