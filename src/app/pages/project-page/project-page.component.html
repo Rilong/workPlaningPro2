@@ -4,8 +4,12 @@
       <div class="card">
         <div class="card-content">
           <div class="dates">
-            <span>01.12.2019</span>
-            <span>01.01.2020</span>
+            <span (click)="calendarChooseOpen('project_start')">
+              {{project.start_date | toMoment | moment:'DD.MM.YYYY'}}
+            </span>
+            <span (click)="calendarChooseOpen('project_finish')">
+              {{project.deadline_date ? (project.deadline_date | toMoment | moment:'DD.MM.YYYY') : 'Не задано'}}
+            </span>
           </div>
           <div class="project-name">
             <div class="row" *ngIf="showEditName; else showProjectName">

@@ -8,11 +8,14 @@ import {Task} from '../../shared/interfaces/task'
 import {Modal} from 'materialize-css'
 import {ModalInstance} from '../../shared/interfaces/modal'
 import {Day} from '../../shared/interfaces/calendar/day'
-import {ToastService} from '../../shared/services/toast.service'
+import {environment} from '../../../environments/environment'
+
+type calendarType = 'project_start' | 'project_finish'
 
 interface Calendar {
   day: Day
-  taskId: number
+  type: calendarType
+  value?: any
   loading: boolean
 }
 
@@ -37,33 +40,39 @@ export class ProjectPageComponent implements OnInit, AfterViewInit, OnDestroy {
   calendarModalInstance: ModalInstance = null
   calendar: Calendar = {
     day: null,
-    taskId: null,
+    type: null,
+    value: null,
     loading: false
   }
 
   constructor(
     private projectService: ProjectService,
     public taskService: TaskService,
-    private route: ActivatedRoute,
-    private toastService: ToastService
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit() {
-    this.loading = true
-
     this.route.params.subscribe((params: Params) => {
+      this.loading = true
       this.projectService.getByIdAll(+params.id)
         .subscribe((projectAll: ProjectAll) => {
           this.loading = false
           this.project = projectAll.project
           this.taskService.tasks = projectAll.tasks
-      }, () => this.loading = false)
+      })
     })
   }
 
   ngAfterViewInit(): void {
     this.calendarModalInstance = Modal.init(this.calendarModal.nativeElement, {
-      onCloseEnd: el => this.calendar.taskId = null
+      onCloseEnd: () => {
+        this.calendar = {
+          day: null,
+          type: null,
+          value: null,
+          loading: false
+        }
+      }
     })
   }
 
@@ -116,8 +125,8 @@ export class ProjectPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.calendar.day = day
   }
 
-  calendarChooseOpen() {
-    console.log(!!this.calendar.day)
+  calendarChooseOpen(type: calendarType = null) {
+    this.calendar.type = type
     this.calendarModalInstance.open()
   }
 
@@ -126,7 +135,30 @@ export class ProjectPageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   calendarChooserApply() {
+    const date = this.calendar.day.value.format(environment.server_date_format)
+    this.calendar.loading = true
 
+    if (this.calendar.type === 'project_start') {
+      this.projectService.update(this.project.id, {start_date: date}).subscribe(
+        () => {
+          this.calendar.loading = false
+          this.project.start_date = date
+          this.calendarChooserClose()
+        },
+        () => this.calendar.loading = false
+      )
+    }
+
+    if (this.calendar.type === 'project_finish') {
+      this.projectService.update(this.project.id, {deadline_date: date}).subscribe(
+        () => {
+          this.calendar.loading = false
+          this.project.deadline_date = date
+          this.calendarChooserClose()
+        },
+        () => this.calendar.loading = false
+      )
+    }
   }
 
   /**
