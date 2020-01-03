@@ -1,16 +1,18 @@
 <div class="progress teal darken-2" *ngIf="show && type === 'indeterminate'">
   <div class="indeterminate teal lighten-3"></div>
 </div>
-
-<div [ngClass]="'preloader-wrapper active ' + size" *ngIf="show && type === 'spinner'">
-  <div class="spinner-layer spinner-blue">
-    <div class="circle-clipper left">
-      <div class="circle"></div>
-    </div><div class="gap-patch">
-    <div class="circle"></div>
-  </div><div class="circle-clipper right">
-    <div class="circle"></div>
-  </div>
+<div *ngIf="type === 'spinner'">
+  <div class="preloader-wrapper active" [ngClass]="size">
+    <div class="spinner-layer spinner-blue-only">
+      <div class="circle-clipper left">
+        <div class="circle"></div>
+      </div>
+      <div class="gap-patch">
+        <div class="circle"></div>
+      </div>
+      <div class="circle-clipper right">
+        <div class="circle"></div>
+      </div>
+    </div>
   </div>
 </div>
-
