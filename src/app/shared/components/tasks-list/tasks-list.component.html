@@ -8,6 +8,7 @@
       <label>
           <span>
           <input type="checkbox"
+                 class="filled-in"
                  (click)="checkToggle({id: task.id, checked: $event.target['checked']})"
                  [checked]="task.is_done"/>
             <span></span>
