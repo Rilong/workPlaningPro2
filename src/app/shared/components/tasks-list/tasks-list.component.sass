@@ -1,8 +1,15 @@
+\:host::ng-deep .controls-wrapper .material-icons
+  font-size: 1.1rem
+
+
 .collection
+  border: none
   overflow: initial
 
 .collection-item
   display: flex
+  border: none
+  padding: 0
   justify-content: space-between
   align-items: center
 
@@ -25,11 +32,24 @@
 
   .controls-wrapper
     position: relative
+
+    .dropdown-content li
+      min-height: 35px
+      > a
+        font-size: 0.9rem
+        padding: 5px 7px
   .controls
     opacity: 0
     transition: opacity ease .3s
     .btns
       display: flex
+      .btn
+        height: 25px
+        line-height: 25px
+        padding: 0 10px
+
+        .material-icons
+          font-size: 1.1rem
     &.show
       opacity: 1
 
@@ -48,7 +68,7 @@ label
   color: #000
 
 .dropdown-content
-  width: 150px !important
+  min-width: 90px !important
 
 .modal
   width: 20%
