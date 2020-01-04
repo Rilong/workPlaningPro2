@@ -28,9 +28,9 @@
           </div>
           <div class="project-progress">
             <div class="progress">
-              <div class="determinate" style="width: 70%"></div>
+              <div class="determinate" [ngStyle]="{width: taskService.calculatePercent() + '%'}"></div>
             </div>
-            <p class="center-align">70%</p>
+            <p class="center-align">{{taskService.calculatePercent()}}%</p>
           </div>
           <div class="desc">
             <div class="row">

@@ -59,7 +59,8 @@ export class ProjectPageComponent implements OnInit, AfterViewInit, OnDestroy {
           this.loading = false
           this.project = projectAll.project
           this.taskService.tasks = projectAll.tasks
-      })
+          console.log(this.taskService.calculatePercent())
+        })
     })
   }
 

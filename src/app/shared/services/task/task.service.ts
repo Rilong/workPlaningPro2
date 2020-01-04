@@ -66,4 +66,19 @@ export class TaskService {
     this.tasks.push(newTask)
     this.tasksChange.next()
   }
+
+  calculatePercent(tasks: Task[] = null): number {
+    const tasksReturn: Task[] = tasks ? tasks : this.tasks
+    let total = 0
+    let done = 0
+
+    if (tasksReturn.length === 0) {
+      return total
+    }
+
+    total = tasksReturn.length
+    done = tasksReturn.reduce((acc, task) => task.is_done ? acc + 1: acc, 0)
+
+    return Math.ceil(100 * done / total)
+  }
 }
