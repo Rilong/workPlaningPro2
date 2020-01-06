@@ -3,6 +3,9 @@
       *ngFor="let task of taskService.tasks; let idx = index"
       (mouseenter)="task.show_control = true"
       (mouseleave)="task.show_control = false"
+      [ngClass]="{
+        done: task.is_done === 1
+      }"
   >
     <span class="label">
       <label>
@@ -21,7 +24,7 @@
                (keyup.enter)="saveTask($event.target['value'], idx)" #input>
       </span>
       <ng-template #title>
-        <span (click)="showInput(idx)">
+        <span (click)="showInput(idx)" class="task-title">
           {{task.title}}
         </span>
       </ng-template>
