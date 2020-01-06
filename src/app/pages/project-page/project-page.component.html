@@ -3,6 +3,8 @@
     <div class="col s8 offset-s2">
       <div class="card">
         <div class="card-content">
+          <button class="btn btn-floating waves-effect waves-light red project-close"
+                  (click)="close()"><app-icon>close</app-icon></button>
           <div class="dates">
             <span (click)="calendarChooseOpen('project_start')">
               {{project.start_date | toMoment | moment:'DD.MM.YYYY'}}

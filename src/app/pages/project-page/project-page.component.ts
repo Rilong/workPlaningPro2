@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core'
 import {ProjectService} from '../../shared/services/project/project.service'
-import {ActivatedRoute, Params} from '@angular/router'
+import {ActivatedRoute, Params, Router} from '@angular/router'
 import {TaskService} from '../../shared/services/task/task.service'
 import {ProjectAll} from '../../shared/interfaces/projectAll'
 import {Project} from '../../shared/interfaces/project'
@@ -48,6 +48,7 @@ export class ProjectPageComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     private projectService: ProjectService,
     public taskService: TaskService,
+    private router: Router,
     private route: ActivatedRoute
   ) { }
 
@@ -162,6 +163,15 @@ export class ProjectPageComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  /*
+  *
+  * Close a project
+  * */
+
+  close() {
+    this.router.navigate(['/'])
+  }
+
   /**
    *
    * Loading the project
@@ -186,5 +196,4 @@ export class ProjectPageComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     this.taskService.tasks = []
   }
-
 }
