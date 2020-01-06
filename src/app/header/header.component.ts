@@ -3,6 +3,7 @@ import {AuthService} from '../shared/services/auth/auth.service'
 import {ToastService} from '../shared/services/toast.service'
 import {Router} from '@angular/router'
 import {fakeAsync} from '@angular/core/testing'
+import * as moment from 'moment'
 
 @Component({
   selector: 'app-header',
@@ -11,12 +12,14 @@ import {fakeAsync} from '@angular/core/testing'
 })
 export class HeaderComponent implements OnInit {
 
+  now: moment.Moment
   logoutLoading = false
 
   constructor(public authService: AuthService, private toastService: ToastService, private router: Router) {
   }
 
   ngOnInit() {
+    this.now = moment(new Date())
   }
 
   logout($event: MouseEvent) {
