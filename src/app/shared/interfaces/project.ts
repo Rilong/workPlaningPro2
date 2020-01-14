@@ -7,4 +7,5 @@ export interface Project {
   start_date?: string
   deadline_date?: string
   finished_date?: string
+  percent?: number
 }

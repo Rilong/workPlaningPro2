@@ -19,7 +19,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.pLoading = true
-    this.pSub = this.projectService.getAll().subscribe(
+    this.pSub = this.projectService.getAll({tasks: true}).subscribe(
       (projects: Project[]) => {
         this.projects = projects
         this.pLoading = false
