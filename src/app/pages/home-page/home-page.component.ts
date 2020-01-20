@@ -28,7 +28,6 @@ export class HomePageComponent implements OnInit, OnDestroy {
     )
   }
 
-
   addProject(project: Project) {
     this.projects.push(project)
   }

@@ -3,7 +3,17 @@
     <a [routerLink]="['/project', project.id]">
       <div class="card">
         <div class="card-content black-text">
-          <span class="card-title">{{project.name}}</span>
+          <span class="card-title">
+            <span>
+              {{project.name}}
+            </span>
+            <span>
+              <span class="percent">{{timeToFormat(project.deadline_date | toMoment)}}|{{project.percent}}%</span>
+            </span>
+          </span>
+        </div>
+        <div class="progress">
+          <div class="determinate" [ngStyle]="{width: project.percent + '%'}"></div>
         </div>
       </div>
     </a>
