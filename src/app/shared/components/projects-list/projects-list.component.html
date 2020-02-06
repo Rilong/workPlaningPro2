@@ -5,10 +5,24 @@
         <div class="card-content black-text">
           <span class="card-title">
             <span>
-              {{project.name}}
+              <span class="title">
+                {{project.name}}
+              </span>
+              <span class="info">
+                <span *ngIf="project.deadline_date" class="deadline-text">
+                  <app-icon>update</app-icon>
+                  {{timeToFormat(project.deadline_date | toMoment)}}
+                </span>
+                <span *ngIf="project.deadline_date"
+                      [class.expired]="timeTo(project.deadline_date | toMoment) < 0"
+                      class="deadline-date">
+                  <app-icon>date_range</app-icon>
+                  {{project.deadline_date | toMoment | moment}}
+                </span>
+              </span>
             </span>
             <span>
-              <span class="percent">{{timeToFormat(project.deadline_date | toMoment)}}|{{project.percent}}%</span>
+              <span class="percent">{{project.percent}}%</span>
             </span>
           </span>
         </div>

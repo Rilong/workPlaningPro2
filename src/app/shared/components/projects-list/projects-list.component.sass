@@ -1,10 +1,40 @@
+@import "~materialize-css/sass/components/color-variables"
+
 .card
+  transition: background-color .25s ease
+
+  &:hover
+    background-color: darken(#fff, 2%)
+
   .card-content
     padding-bottom: 20px
+    margin-bottom: 0
     .card-title
+      font-weight: normal
       display: flex
       justify-content: space-between
+      align-items: center
 
+      .title
+        font-size: 18px
+      .info
+        display: flex
+        font-size: 14px
+        color: #979797
+        .expired
+          color: color('red', 'lighten-2')
+        > *
+          display: flex
+          align-items: center
+        > span
+          margin-right: 5px
+        app-icon
+          position: relative
+          top: 3px
+          margin-right: 5px
+      > span
+        display: flex
+        flex-direction: column
 
 .progress
   margin: 0
