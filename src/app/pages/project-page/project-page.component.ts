@@ -26,9 +26,9 @@ interface Calendar {
 })
 export class ProjectPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
-  @ViewChild('calendarModal', {static: false}) calendarModal: ElementRef<HTMLDivElement>
-  @ViewChild('nameInput', {static: false}) nameInput: ElementRef<HTMLInputElement>
-  @ViewChild('descArea', {static: false}) descArea: ElementRef<HTMLTextAreaElement>
+  @ViewChild('calendarModal') calendarModal: ElementRef<HTMLDivElement>
+  @ViewChild('nameInput') nameInput: ElementRef<HTMLInputElement>
+  @ViewChild('descArea') descArea: ElementRef<HTMLTextAreaElement>
 
   project: Project
   tasks: Task[]

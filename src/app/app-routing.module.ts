@@ -11,8 +11,8 @@ import {CalendarViewPageComponent} from './pages/calendar-view-page/calendar-vie
 
 const routes: Routes = [
   {path: '', component: HomePageComponent, canActivate: [AuthGuard]},
-  {path: 'login', loadChildren: './pages/login-page/login-page.module#LoginPageModule', canLoad: [ReverseAuthGuard]},
-  {path: 'register', loadChildren: './pages/register-page/register-page.module#RegisterPageModule', canLoad: [ReverseAuthGuard]},
+  {path: 'login', loadChildren: () => import('./pages/login-page/login-page.module').then(m => m.LoginPageModule), canLoad: [ReverseAuthGuard]},
+  {path: 'register', loadChildren: () => import('./pages/register-page/register-page.module').then(m => m.RegisterPageModule), canLoad: [ReverseAuthGuard]},
   {path: 'project/:id', component: ProjectPageComponent, canActivate: [AuthGuard], canDeactivate: [ProjectSaveGuard]},
   {path: 'calendar', component: CalendarPageComponent, canActivate: [AuthGuard]},
   {path: 'calendar/:date', component: CalendarViewPageComponent, canActivate: [AuthGuard]}

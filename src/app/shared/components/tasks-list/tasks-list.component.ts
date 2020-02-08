@@ -49,8 +49,8 @@ export class TasksListComponent implements OnInit, AfterViewInit, OnDestroy {
   private tasksLoading = false
   @Output() update: EventEmitter<Task[]> = new EventEmitter<Task[]>()
 
-  @ViewChild('input', {static: false}) input: ElementRef<HTMLInputElement>
-  @ViewChild('calendarModal', {static: false}) calendarModal: ElementRef<HTMLDivElement>
+  @ViewChild('input') input: ElementRef<HTMLInputElement>
+  @ViewChild('calendarModal') calendarModal: ElementRef<HTMLDivElement>
 
   constructor(public taskService: TaskService, private toastService: ToastService) { }
 

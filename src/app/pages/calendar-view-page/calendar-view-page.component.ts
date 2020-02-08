@@ -21,7 +21,7 @@ export class CalendarViewPageComponent implements OnInit, OnDestroy {
   tasks: Task[] = []
   loading = false
 
-  constructor(private taskService: TaskService,
+  constructor(public taskService: TaskService,
               private userService: UserService,
               private router: Router,
               private route: ActivatedRoute) { }

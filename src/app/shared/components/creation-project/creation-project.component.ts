@@ -13,8 +13,8 @@ import {Project} from '../../interfaces/project'
 })
 export class CreationProjectComponent implements OnInit, AfterViewInit, OnDestroy {
 
-  @ViewChild('createProjectModal', {static: false}) modal: ElementRef
-  @ViewChild('projectNameInput', {static: false}) input: ElementRef<HTMLInputElement>
+  @ViewChild('createProjectModal') modal: ElementRef
+  @ViewChild('projectNameInput') input: ElementRef<HTMLInputElement>
   @Output() add: EventEmitter<Project> = new EventEmitter<Project>()
 
   pSub: Subscription
