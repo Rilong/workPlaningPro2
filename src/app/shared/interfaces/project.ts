@@ -8,4 +8,5 @@ export interface Project {
   deadline_date?: string
   finished_date?: string
   percent?: number
+  tasksLength?: number
 }

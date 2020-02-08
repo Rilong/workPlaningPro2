@@ -9,6 +9,10 @@
                 {{project.name}}
               </span>
               <span class="info">
+                <span class="tasks-length">
+                  <app-icon>format_list_bulleted</app-icon>
+                  {{project.tasksLength}}
+                </span>
                 <span *ngIf="project.deadline_date" class="deadline-text">
                   <app-icon>update</app-icon>
                   {{timeToFormat(project.deadline_date | toMoment)}}
