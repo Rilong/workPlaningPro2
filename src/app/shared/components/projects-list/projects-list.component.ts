@@ -29,7 +29,7 @@ export class ProjectsListComponent implements OnInit {
     }
 
     if (this.timeTo(date) >= 0) {
-      return `Залишилось ${date.fromNow(true)}`
+      return `Залишилось ${date.clone().add(1, 'day').fromNow(true)}`
     }
 
     return 'Протермінований'
