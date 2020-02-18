@@ -31,7 +31,7 @@ export class CalendarViewPageComponent implements OnInit, OnDestroy {
     this.route.params.subscribe((params: Params) => {
       const date = moment(params.date, 'DD-MM-YYYY')
       this.loading = true
-      this.tSub = this.taskService.getAllByUser(this.user.id, {
+      this.tSub = this.taskService.getAllByUser({
         date: date.format(environment.server_date_format)
       }).subscribe(tasks => {
         this.loading = false

@@ -55,13 +55,14 @@ export class ProjectPageComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit() {
     this.route.params.subscribe((params: Params) => {
       this.loading = true
-      this.projectService.getByIdAll(+params.id)
-        .subscribe((projectAll: ProjectAll) => {
+
+      this.projectService.getById(+params.id).subscribe(project => {
+        this.project = project
+        this.taskService.getAllByProject(+params.id).subscribe(tasks => {
+          this.taskService.tasks = tasks
           this.loading = false
-          this.project = projectAll.project
-          this.taskService.tasks = projectAll.tasks
-          console.log(this.taskService.calculatePercent())
-        })
+        }, () => this.loading = false)
+      }, () => this.loading = false)
     })
   }
 

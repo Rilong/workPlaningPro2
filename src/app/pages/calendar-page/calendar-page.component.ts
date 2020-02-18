@@ -34,7 +34,7 @@ export class CalendarPageComponent implements OnInit, OnDestroy {
     this.daysOfWeek = moment.weekdays(true)
     this.dSub = this.calendarService.date.subscribe((now: moment.Moment) => {
       this.loadingTasks = true
-      this.tSub = this.taskService.getAllByUser(this.user.id, { date_month: now.format(environment.server_date_format) })
+      this.tSub = this.taskService.getAllByUser({ date_month: now.format(environment.server_date_format) })
         .subscribe(tasks => {
           this.loadingTasks = false
           this.tasks = tasks

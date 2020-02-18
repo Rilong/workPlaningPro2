@@ -3,7 +3,7 @@ import {HttpClient, HttpParams} from '@angular/common/http'
 import {Observable, Subject} from 'rxjs'
 import {Task} from '../../interfaces/task'
 import {environment} from '../../../../environments/environment'
-import {UserService} from '../user/user.service'
+import {UtilitiesService} from '../utilities/utilities.service'
 
 interface Filter {
   date?: string
@@ -18,9 +18,9 @@ export class TaskService {
   tasks: Task[] = []
   tasksChange: Subject<null> = new Subject<null>()
 
-  constructor(private http: HttpClient, private userService: UserService) { }
+  constructor(private http: HttpClient, public utilities: UtilitiesService) { }
 
-  getAllByUser(userId: number, filter: Filter): Observable<Task[]> {
+  getAllByUser(filter: Filter): Observable<Task[]> {
     let params = new HttpParams()
 
     if (filter.date_month) {
@@ -30,33 +30,33 @@ export class TaskService {
     if (filter.date) {
       params = params.append('date', encodeURI(filter.date))
     }
-    return this.http.get<Task[]>(`${environment.server_url}/user/${userId}/tasks`, {params})
+    return this.http.get<Task[]>(`${environment.server_url}/tasks`, {params})
   }
 
   getAllByProject(projectId: number): Observable<Task[]> {
-    return this.http.get<Task[]>(`${environment.server_url}/projects/${projectId}/tasks`)
+    let params = new HttpParams().append('project_id', projectId.toString())
+    return this.http.get<Task[]>(`${environment.server_url}/tasks`, {params})
   }
 
-  create(projectId: number, task: Task): Observable<Task> {
-    return this.http.post<Task>(`${environment.server_url}/projects/${projectId}/tasks`, task)
+  create(task: Task): Observable<Task> {
+    return this.http.post<Task>(`${environment.server_url}/tasks`, this.utilities.removeFalsy(task))
   }
 
-  update(projectId: number, taskId: number, data: Task): Observable<string> {
-    return this.http.put<string>(`${environment.server_url}/projects/${projectId}/tasks/${taskId}`, data)
+  update(taskId: number, task: Task): Observable<string> {
+    return this.http.put<string>(`${environment.server_url}/tasks/${taskId}`, task)
   }
 
-  toggleCheck(projectId: number, taskId: number, data: {check: boolean}): Observable<string> {
-    return this.http.put<string>(`${environment.server_url}/projects/${projectId}/tasks/${taskId}/toggleCheck`, data)
+  toggleCheck(taskId: number): Observable<string> {
+    return this.http.post<string>(`${environment.server_url}/tasks/${taskId}/check`, null)
   }
 
-  delete(projectId: number, taskId: number): Observable<string> {
-    return this.http.delete<string>(`${environment.server_url}/projects/${projectId}/tasks/${taskId}`)
+  delete(taskId: number): Observable<string> {
+    return this.http.delete<string>(`${environment.server_url}/tasks/${taskId}`)
   }
 
   addNewTask(projectId: number = null) {
     const newTask: Task = {
       id: 0,
-      user_id: this.userService.getUser().id,
       title: '',
       is_done: 0,
       show_edit: true,

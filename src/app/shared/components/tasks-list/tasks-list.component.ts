@@ -75,7 +75,7 @@ export class TasksListComponent implements OnInit, AfterViewInit, OnDestroy {
     const idx = this.taskService.tasks.findIndex((ts) => ts.id === check.id)
     this.tasksLoading = true
 
-    this.taskService.toggleCheck(this.taskService.tasks[idx].project_id, check.id, {check: check.checked})
+    this.taskService.toggleCheck(check.id)
       .subscribe(
         () => this.tasksLoading = false,
         () => this.tasksLoading = false
@@ -86,9 +86,8 @@ export class TasksListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   taskDelete(id: number) {
     this.tasksLoading = true
-    const projectId = this.taskService.tasks.find((ts) => ts.id === id).project_id
     if (id > 0) {
-      this.taskService.delete(projectId, id)
+      this.taskService.delete(id)
         .subscribe(
           () => this.tasksLoading = false,
           () => this.tasksLoading = false
@@ -102,7 +101,7 @@ export class TasksListComponent implements OnInit, AfterViewInit, OnDestroy {
     const idx = this.taskService.tasks.findIndex(ts => ts.id === task.id)
     this.tasksLoading = true
 
-    this.cSub = this.taskService.create(this.taskService.tasks[idx].project_id, task).subscribe((task) => {
+    this.cSub = this.taskService.create(task).subscribe((task) => {
       this.tasksLoading = false
       this.taskService.tasks[idx] = task
       setTimeout(() => this.dropdownInit(), 0)
@@ -114,7 +113,7 @@ export class TasksListComponent implements OnInit, AfterViewInit, OnDestroy {
     const idx = this.taskService.tasks.findIndex(ts => ts.id === values.id)
     this.taskService.tasks[idx].title = values.value
     this.tasksLoading = true
-    this.uSub = this.taskService.update(this.taskService.tasks[idx].project_id, this.taskService.tasks[idx].id, {title: values.value})
+    this.uSub = this.taskService.update(this.taskService.tasks[idx].id, {title: values.value})
       .subscribe(
         () => this.tasksLoading = false,
         () => this.tasksLoading = false
@@ -179,11 +178,10 @@ export class TasksListComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   calendarChooserApply() {
-    const projectId = this.taskService.tasks.find(ts => ts.id === this.calendar.taskId).project_id
     const deadline_date = this.calendar.day.value.format(environment.server_date_format)
     this.calendar.loading = true
 
-    this.uSub2 = this.taskService.update(projectId, this.calendar.taskId, {deadline_date})
+    this.uSub2 = this.taskService.update(this.calendar.taskId, {deadline_date})
       .subscribe(() => {
         const taskIndex = this.taskService.tasks.findIndex((ts) => ts.id === this.calendar.taskId)
 
