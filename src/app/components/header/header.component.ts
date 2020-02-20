@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core'
-import {AuthService} from '../shared/services/auth/auth.service'
-import {ToastService} from '../shared/services/toast.service'
+import {AuthService} from '../../shared/services/auth/auth.service'
+import {ToastService} from '../../shared/services/toast.service'
 import {Router} from '@angular/router'
 import {fakeAsync} from '@angular/core/testing'
 import * as moment from 'moment'

@@ -1,0 +1,21 @@
+<div [@slideUp] *ngIf="settingsService.open" class="settings">
+  <div class="card horizontal">
+    <div class="card-stacked">
+      <nav>
+        <div class="nav-wrapper">
+          <span class="brand-logo">Налаштування</span>
+          <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <li>
+              <button (click)="settingsService.open = false" class="settings-close btn-small btn-floating waves-effect waves-light transparent">
+                <app-icon>close</app-icon>
+              </button>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <div class="card-content">
+        <p>I am a very simple card. I am good at containing small bits of information.</p>
+      </div>
+    </div>
+  </div>
+</div>

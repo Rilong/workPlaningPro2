@@ -4,4 +4,8 @@
   <div class="container">
     <router-outlet></router-outlet>
   </div>
+  <app-settings></app-settings>
+  <button (click)="settingsService.open = true" class="settings-btn btn-floating btn-large waves-effect waves-light">
+    <app-icon>settings</app-icon>
+  </button>
 </div>

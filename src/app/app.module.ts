@@ -3,7 +3,7 @@ import {NgModule} from '@angular/core'
 import {AppRoutingModule} from './app-routing.module'
 import {AppComponent} from './app.component'
 import {HomePageComponent} from './pages/home-page/home-page.component'
-import {HeaderComponent} from './header/header.component'
+import {HeaderComponent} from './components/header/header.component'
 import {SharedModule} from './shared/shared.module'
 import {HTTP_INTERCEPTORS} from '@angular/common/http'
 import {TokenInterceptor} from './interceptors/token.interceptor'
@@ -17,7 +17,9 @@ import {CalendarPageComponent} from './pages/calendar-page/calendar-page.compone
 import {MomentPipe} from './shared/pipes/moment/moment.pipe'
 import {CalendarChooserComponent} from './shared/components/calendar-chooser/calendar-chooser.component'
 import {ToMomentPipe} from './shared/pipes/toMoment/to-moment.pipe';
-import { CalendarViewPageComponent } from './pages/calendar-view-page/calendar-view-page.component'
+import { CalendarViewPageComponent } from './pages/calendar-view-page/calendar-view-page.component';
+import { SettingsComponent } from './components/settings/settings.component'
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations'
 
 @NgModule({
   declarations: [
@@ -34,12 +36,14 @@ import { CalendarViewPageComponent } from './pages/calendar-view-page/calendar-v
     CalendarChooserComponent,
     MomentPipe,
     ToMomentPipe,
-    CalendarViewPageComponent
+    CalendarViewPageComponent,
+    SettingsComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    SharedModule
+    SharedModule,
+    BrowserAnimationsModule
   ],
   providers: [
     {
