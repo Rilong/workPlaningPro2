@@ -49,6 +49,10 @@ export class CalendarViewPageComponent implements OnInit, OnDestroy {
     })
   }
 
+  updatedTasks(tasks: Task[]) {
+    this.taskService.tasks = tasks.filter(t => t.deadline_date === this.date.format(environment.server_date_format))
+  }
+
   ngOnDestroy(): void {
     if (this.tSub) {
       this.tSub.unsubscribe()
