@@ -54,14 +54,15 @@ export class TaskService {
     return this.http.delete<string>(`${environment.server_url}/tasks/${taskId}`)
   }
 
-  addNewTask(projectId: number = null) {
+  addNewTask(task: Task) {
     const newTask: Task = {
       id: 0,
       title: '',
       is_done: 0,
       show_edit: true,
       show_control: null,
-      project_id: projectId
+      project_id: null,
+      ...task
     }
     this.tasks.push(newTask)
     this.tasksChange.next()

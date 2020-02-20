@@ -60,7 +60,8 @@
                 <div class="col s12">
                   <h5>Завдання</h5>
                   <app-tasks-list></app-tasks-list>
-                  <button class="waves-effect waves-light btn" (click)="taskService.addNewTask(project.id)">Додати завдання</button>
+                  <button class="waves-effect waves-light btn"
+                          (click)="taskService.addNewTask({project_id: project.id})">Додати завдання</button>
                 </div>
               </div>
             </div>
