@@ -16,6 +16,7 @@ import {EditEvent} from '../../shared/interfaces/editEvent'
   styleUrls: ['./calendar-view-page.component.sass']
 })
 export class CalendarViewPageComponent implements OnInit, OnDestroy {
+  public date: moment.Moment
   tSub: Subscription
   user: User
   tasks: Task[] = []
@@ -29,14 +30,22 @@ export class CalendarViewPageComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.user = this.userService.getUser()
     this.route.params.subscribe((params: Params) => {
-      const date = moment(params.date, 'DD-MM-YYYY')
+      this.date = moment(params.date, 'DD-MM-YYYY')
       this.loading = true
+
       this.tSub = this.taskService.getAllByUser({
-        date: date.format(environment.server_date_format)
+        date: this.date.format(environment.server_date_format)
       }).subscribe(tasks => {
         this.loading = false
         this.taskService.tasks = tasks
       }, () => this.loading = false)
+    })
+  }
+
+  addTask() {
+    this.taskService.addNewTask({
+      user_id: this.userService.getUser().id,
+      deadline_date: this.date.format(environment.server_date_format)
     })
   }
 
@@ -45,25 +54,5 @@ export class CalendarViewPageComponent implements OnInit, OnDestroy {
       this.tSub.unsubscribe()
     }
     this.taskService.tasks = []
-  }
-
-  checkToggle($event: CheckEvent) {
-
-  }
-
-  taskDelete($event: number) {
-
-  }
-
-  taskEdit($event: EditEvent) {
-
-  }
-
-  calendarChoose($event: number) {
-
-  }
-
-  updateTask(tasks: Task[]) {
-    this.tasks = tasks
   }
 }
