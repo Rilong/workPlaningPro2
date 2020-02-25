@@ -2,8 +2,8 @@ import {Component, OnInit} from '@angular/core'
 import {AuthService} from '../../shared/services/auth/auth.service'
 import {ToastService} from '../../shared/services/toast.service'
 import {Router} from '@angular/router'
-import {fakeAsync} from '@angular/core/testing'
 import * as moment from 'moment'
+import {SettingsService} from '../../shared/services/settings/settings.service'
 
 @Component({
   selector: 'app-header',
@@ -15,7 +15,10 @@ export class HeaderComponent implements OnInit {
   now: moment.Moment
   logoutLoading = false
 
-  constructor(public authService: AuthService, private toastService: ToastService, private router: Router) {
+  constructor(public authService: AuthService,
+              private settingsService: SettingsService,
+              private toastService: ToastService,
+              private router: Router) {
   }
 
   ngOnInit() {
@@ -33,5 +36,10 @@ export class HeaderComponent implements OnInit {
         this.router.navigate(['/login'])
       }, () => this.logoutLoading = false)
     }
+  }
+
+  openSettings(event: MouseEvent) {
+    event.preventDefault()
+    this.settingsService.open = true
   }
 }

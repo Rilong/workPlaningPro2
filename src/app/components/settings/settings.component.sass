@@ -1,15 +1,31 @@
+.btn-floating i
+  color: #000
+
 .settings
   position: fixed
   top: 0
-  left: 0
+  right: 0
   z-index: 100
-  width: 100%
+  width: 20%
 
   &-close
     box-shadow: none
+    margin: 10px
   .card
     margin: 0
     height: 100vh
 
   nav
     padding: 0 20px
+
+  .header
+    display: flex
+    justify-content: space-between
+
+    .title
+      margin-right: 20px
+
+\:host::ng-deep .settings
+    &-close
+      i
+        color: rgba(0, 0, 0, 0.71)

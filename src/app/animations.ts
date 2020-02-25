@@ -1,14 +1,14 @@
 import {animate, animation, style} from '@angular/animations'
 
-export const slideUp = animation([
+export const slideLeft = animation([
   style({
-    transform: 'translateY(100%)'
+    transform: 'translateX(100%)'
   }),
   animate('{{ time }}')
 ])
 
-export const slideDown = animation([
+export const slideRight = animation([
   animate('{{ time }}', style({
-    transform: 'translateY(100%)'
+    transform: 'translateX(100%)'
   }))
 ])

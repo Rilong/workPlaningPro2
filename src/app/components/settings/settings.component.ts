@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {transition, trigger, useAnimation} from '@angular/animations'
-import {slideDown, slideUp} from '../../animations'
+import {slideRight, slideLeft} from '../../animations'
 import {SettingsService} from '../../shared/services/settings/settings.service'
 
 @Component({
@@ -9,12 +9,12 @@ import {SettingsService} from '../../shared/services/settings/settings.service'
   styleUrls: ['./settings.component.sass'],
   animations: [
     trigger('slideUp', [
-      transition('void => *', useAnimation(slideUp, {
+      transition('void => *', useAnimation(slideLeft, {
         params: {
           time: '350ms ease'
         }
       })),
-      transition('* => void', useAnimation(slideDown, {
+      transition('* => void', useAnimation(slideRight, {
         params: {
           time: '350ms ease'
         }

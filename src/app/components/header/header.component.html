@@ -6,6 +6,7 @@
       <ng-template [ngIf]="authService.hasToken()" [ngIfElse]="noAuth">
         <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a routerLink="/calendar">Календар</a></li>
         <li routerLinkActive="active"><a [routerLink]="'/calendar/' + (now | moment:'DD-MM-YYYY')">Сьогодні</a></li>
+        <li><a (click)="openSettings($event)" href="#"><app-icon>settings</app-icon></a></li>
         <li><a (click)="logout($event)" href="#"><app-icon>exit_to_app</app-icon></a></li>
       </ng-template>
       <ng-template #noAuth>
