@@ -16,10 +16,11 @@ import {ProjectPageComponent} from './pages/project-page/project-page.component'
 import {CalendarPageComponent} from './pages/calendar-page/calendar-page.component'
 import {MomentPipe} from './shared/pipes/moment/moment.pipe'
 import {CalendarChooserComponent} from './shared/components/calendar-chooser/calendar-chooser.component'
-import {ToMomentPipe} from './shared/pipes/toMoment/to-moment.pipe';
-import { CalendarViewPageComponent } from './pages/calendar-view-page/calendar-view-page.component';
-import { SettingsComponent } from './components/settings/settings.component'
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations'
+import {ToMomentPipe} from './shared/pipes/toMoment/to-moment.pipe'
+import {CalendarViewPageComponent} from './pages/calendar-view-page/calendar-view-page.component'
+import {SettingsComponent} from './components/settings/settings.component'
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { BackgroundSettingsComponent } from './components/background-settings/background-settings.component'
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations'
     MomentPipe,
     ToMomentPipe,
     CalendarViewPageComponent,
-    SettingsComponent
+    SettingsComponent,
+    BackgroundSettingsComponent
   ],
   imports: [
     BrowserModule,
