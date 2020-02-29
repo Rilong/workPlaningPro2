@@ -4,6 +4,7 @@ import {Observable, throwError} from 'rxjs'
 import {AuthService} from '../shared/services/auth/auth.service'
 import {catchError} from 'rxjs/operators'
 import {Router} from '@angular/router'
+import {environment} from '../../environments/environment'
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
@@ -12,7 +13,7 @@ export class TokenInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-    if (this.authService.hasToken()) {
+    if (this.authService.hasToken() && req.url.includes(environment.server_url)) {
       const handle = next.handle(req.clone({
         headers: req.headers.append('Authorization', `Bearer ${this.authService.getToken()}`)
       }))
