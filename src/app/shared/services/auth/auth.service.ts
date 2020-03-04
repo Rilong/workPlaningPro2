@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core'
 import {RegisterData} from '../../interfaces/registerData'
 import {Observable, throwError} from 'rxjs'
-import {HttpClient} from '@angular/common/http'
+import {HttpClient, HttpErrorResponse} from '@angular/common/http'
 import {environment} from '../../../../environments/environment'
 import {ServerMessage} from '../../interfaces/serverMessage'
 import {catchError, tap} from 'rxjs/operators'
@@ -38,8 +38,12 @@ export class AuthService {
           this.saveToken(token)
           this.userService.setUser(user)
         }),
-        catchError((err, caught) => {
-          this.toastService.open('Невірний E-mail або пароль', 'danger')
+        catchError((err: HttpErrorResponse, caught) => {
+          if (err.status === 401) {
+            this.toastService.open('Невірний E-mail або пароль', 'danger')
+          } else {
+            this.toastService.open('Невідома помилка', 'danger')
+          }
           return throwError(err)
         })
       )
