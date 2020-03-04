@@ -22,7 +22,7 @@ export class CalendarChooserComponent implements OnInit, OnDestroy {
   constructor(public calendarService: CalendarService) { }
 
   ngOnInit() {
-    this.daysOfWeek = moment.weekdaysShort()
+    this.daysOfWeek = moment.weekdaysShort(true)
     this.dSub = this.calendarService.date.subscribe((now: moment.Moment) => {
       this.calendar = this.calendarService.generate(now)
     })
