@@ -2,10 +2,14 @@
 
 <div id="bgSettingsModal" class="modal bgModal" #bgModal>
   <div class="modal-content">
-    <h4>Вибір дати</h4>
+    <h4>Вибір зображення</h4>
     <div class="row">
       <div class="col s12">
-        some test...
+        <div class="photos" (scroll)="scrollPhotos($event)">
+          <div class="photo" *ngFor="let photo of photos" (click)="selectPhoto(photo)">
+            <span [style.background-image]="'url(' + photo.urls.small + ')'" class="photo-img"></span>
+          </div>
+        </div>
       </div>
     </div>
   </div>

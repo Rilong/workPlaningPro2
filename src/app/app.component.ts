@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core'
 import {UserService} from './shared/services/user/user.service'
 import * as moment from 'moment'
 import {SettingsService} from './shared/services/settings/settings.service'
@@ -10,6 +10,6 @@ import {SettingsService} from './shared/services/settings/settings.service'
 })
 export class AppComponent {
   constructor(public userService: UserService, public settingsService: SettingsService) {
-      moment.locale('uk')
+    moment.locale('uk')
   }
 }
