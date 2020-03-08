@@ -20,4 +20,12 @@ export class SettingsService {
 
     return this.http.get<Array<UnsplashPhoto>>(`https://api.unsplash.com/photos?page=${page}&per_page=${perPage}`, {headers})
   }
+
+  changeSettings(settings: Object): Observable<Object> {
+    return this.http.post<Object>(`${environment.server_url}/user/settings`, {settings})
+  }
+
+  removeSettings(settings: Object): Observable<Object> {
+    return this.http.put<Object>(`${environment.server_url}/user/settings`, {settings})
+  }
 }
