@@ -1,8 +1,15 @@
 <app-loader [show]="userService.loading"></app-loader>
-<div *ngIf="!userService.loading">
-  <app-header></app-header>
-  <div class="container">
-    <router-outlet></router-outlet>
+<div *ngIf="!userService.loading" class="app">
+  <div class="app-background"
+       *ngIf="settingsService.settings.background"
+       [ngStyle]="{
+        backgroundImage: 'url('+ settingsService.settings.background +')'
+       }"></div>
+  <div class="app-main">
+    <app-header></app-header>
+    <div class="container">
+      <router-outlet></router-outlet>
+    </div>
+    <app-settings></app-settings>
   </div>
-  <app-settings></app-settings>
 </div>

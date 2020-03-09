@@ -3,13 +3,16 @@ import {Observable} from 'rxjs'
 import {UnsplashPhoto} from '../../interfaces/unsplash'
 import {HttpClient, HttpHeaders} from '@angular/common/http'
 import {environment} from '../../../../environments/environment'
+import Settings from '../../interfaces/settings'
 
 @Injectable({
   providedIn: 'root'
 })
 export class SettingsService {
   public open = false
-  public image: string = null
+  public settings: Settings = {
+    background: null
+  }
 
   constructor(private http: HttpClient) { }
 
@@ -27,5 +30,17 @@ export class SettingsService {
 
   removeSettings(settings: Object): Observable<Object> {
     return this.http.put<Object>(`${environment.server_url}/user/settings`, {settings})
+  }
+
+  setSettings(settings: Settings) {
+    if (settings && typeof settings === 'object') {
+      this.settings = settings
+    }
+  }
+
+  clearSettings(): void {
+    this.settings = {
+      background: null
+    }
   }
 }

@@ -43,7 +43,9 @@ export class BackgroundSettingsComponent implements OnInit, AfterViewInit, OnDes
   }
 
   selectPhoto(photo: UnsplashPhoto) {
-    console.log(photo)
+    this.settingsService.settings.background = photo.urls.full
+    this.settingsService.changeSettings(this.settingsService.settings)
+      .subscribe()
   }
 
   scrollPhotos(event: Event) {
@@ -59,6 +61,11 @@ export class BackgroundSettingsComponent implements OnInit, AfterViewInit, OnDes
   openModal() {
     this.modalInstance.open()
     this.isOpen = true
+  }
+
+  closeModal() {
+    this.modalInstance.close()
+    this.isOpen = false
   }
 
   onOpenModal(el: Element) {

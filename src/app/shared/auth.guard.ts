@@ -5,12 +5,16 @@ import {AuthService} from './services/auth/auth.service'
 import {UserService} from './services/user/user.service'
 import {map, tap, finalize} from 'rxjs/operators'
 import {User} from './interfaces/user'
+import {SettingsService} from './services/settings/settings.service'
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
-  constructor(private router: Router, private authService: AuthService, private userService: UserService) {
+  constructor(private router: Router,
+              private authService: AuthService,
+              private userService: UserService,
+              private settingsService: SettingsService) {
   }
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | boolean {
@@ -22,6 +26,7 @@ export class AuthGuard implements CanActivate {
         .pipe(
           tap((user: User) => {
             this.userService.setUser(user)
+            this.settingsService.setSettings(user.settings)
           }),
           map(() => true),
           finalize(() => this.userService.loading = false)

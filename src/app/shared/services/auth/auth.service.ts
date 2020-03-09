@@ -8,13 +8,17 @@ import {catchError, tap} from 'rxjs/operators'
 import {ToastService} from '../toast.service'
 import {UserService} from '../user/user.service'
 import {LoginResponse} from '../../interfaces/loginResponse'
+import {SettingsService} from '../settings/settings.service'
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  constructor(private http: HttpClient, private toastService: ToastService, private userService: UserService) {
+  constructor(private http: HttpClient,
+              private toastService: ToastService,
+              private userService: UserService,
+              private settingsService: SettingsService) {
   }
 
   public register(formData: RegisterData): Observable<ServerMessage> {
@@ -37,6 +41,7 @@ export class AuthService {
         tap(({token, user}) => {
           this.saveToken(token)
           this.userService.setUser(user)
+          this.settingsService.setSettings(user.settings)
         }),
         catchError((err: HttpErrorResponse, caught) => {
           if (err.status === 401) {
@@ -52,6 +57,7 @@ export class AuthService {
   public unauthorize() {
     this.clearToken()
     this.userService.clearUser()
+    this.settingsService.clearSettings()
   }
 
   public logout(): Observable<string> {
