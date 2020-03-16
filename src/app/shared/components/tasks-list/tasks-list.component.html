@@ -19,7 +19,9 @@
       </label>
       <span class="input-field" *ngIf="task.show_edit; else title">
         <input type="text"
+               [class.invalid]="errorInput"
                [value]="task.title"
+               (input)="validateInput($event.target['value'])"
                (blur)="saveTask($event.target['value'], idx)"
                (keyup.enter)="saveTask($event.target['value'], idx)" #input>
       </span>

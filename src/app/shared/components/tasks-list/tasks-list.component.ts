@@ -34,6 +34,7 @@ interface Calendar {
 })
 export class TasksListComponent implements OnInit, AfterViewInit, OnDestroy {
 
+  errorInput = false
   calendar: Calendar = {
     day: null,
     taskId: null,
@@ -121,14 +122,27 @@ export class TasksListComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   saveTask(value: string, idx: number) {
-    if (value.trim() && !this.tasksLoading) {
-      const id = this.taskService.tasks[idx].id
-      this.taskService.tasks[idx].show_edit = false
-      if (id > 0) {
-        this.taskEdit({id, value})
-      } else {
-        this.taskService.tasks[idx].title = value
-        this.taskAddSave(this.taskService.tasks[idx])
+    if (!this.errorInput) {
+      if (value.trim() && !this.tasksLoading) {
+        const id = this.taskService.tasks[idx].id
+        this.taskService.tasks[idx].show_edit = false
+        if (id > 0) {
+          this.taskEdit({id, value})
+        } else {
+          this.taskService.tasks[idx].title = value
+          this.taskAddSave(this.taskService.tasks[idx])
+        }
+      }
+    }
+  }
+
+
+  validateInput(title: string) {
+    if (title.length > 100) {
+      this.errorInput = true
+    } else {
+      if (this.errorInput) {
+        this.errorInput = false
       }
     }
   }
