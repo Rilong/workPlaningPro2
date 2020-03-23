@@ -24,6 +24,15 @@ export class SettingsService {
     return this.http.get<Array<UnsplashPhoto>>(`https://api.unsplash.com/photos?page=${page}&per_page=${perPage}`, {headers})
   }
 
+  setPhotoParams(url: string, params: Object): string {
+    let strParams = ''
+    Object.keys(params).forEach(key => {
+      strParams += `&${key}=${params[key]}`
+    })
+
+    return url + strParams
+  }
+
   changeSettings(settings: Object): Observable<Object> {
     return this.http.post<Object>(`${environment.server_url}/user/settings`, {settings})
   }

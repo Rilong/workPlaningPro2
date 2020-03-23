@@ -43,7 +43,10 @@ export class BackgroundSettingsComponent implements OnInit, AfterViewInit, OnDes
   }
 
   selectPhoto(photo: UnsplashPhoto) {
-    this.settingsService.settings.background = photo.urls.full
+    this.settingsService.settings.background = this.settingsService.setPhotoParams(photo.urls.regular, {
+      w: '2500',
+      dpi: '2'
+    })
     this.settingsService.changeSettings(this.settingsService.settings)
       .subscribe()
   }
