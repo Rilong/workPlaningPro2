@@ -49,7 +49,7 @@ export class TasksListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private tasksLoading = false
   @Output() update: EventEmitter<Task[]> = new EventEmitter<Task[]>()
-  @Output() onCreate: EventEmitter<Task> = new EventEmitter<Task>()
+  @Output() onEnter: EventEmitter<Task> = new EventEmitter<Task>()
 
   @ViewChild('input') input: ElementRef<HTMLInputElement>
   @ViewChild('calendarModal') calendarModal: ElementRef<HTMLDivElement>
@@ -73,36 +73,41 @@ export class TasksListComponent implements OnInit, AfterViewInit, OnDestroy {
    * Tasks
    */
 
-  checkToggle(check: CheckEvent) {
-    const idx = this.taskService.tasks.findIndex((ts) => ts.id === check.id)
-    this.tasksLoading = true
-
-    this.taskService.toggleCheck(check.id)
-      .subscribe(
-        () => this.tasksLoading = false,
-        () => this.tasksLoading = false
-      )
-
-    this.taskService.tasks[idx].is_done = check.checked ? 1 : 0
-  }
-
-  taskDelete(id: number) {
-    this.tasksLoading = true
-    if (id > 0) {
-      this.taskService.delete(id)
-        .subscribe(
-          () => this.tasksLoading = false,
-          () => this.tasksLoading = false
-        )
+  validateTaskInput(title: string) {
+    if (title.length > 100) {
+      this.errorInput = true
+    } else {
+      if (this.errorInput) {
+        this.errorInput = false
+      }
     }
-
-    this.taskService.tasks = this.taskService.tasks.filter((ts) => ts.id !== id)
   }
 
-  taskAddSave(task: Task) {
+
+  saveTask(value: string, idx: number, isEnter = false) {
+    if (!this.errorInput) {
+      if (value.trim() && !this.tasksLoading) {
+        const id = this.taskService.tasks[idx].id
+        this.taskService.tasks[idx].show_edit = false
+        if (id > 0) {
+          this.taskEdit({id, value})
+        } else {
+          this.taskService.tasks[idx].title = value
+          this.taskAddSave(this.taskService.tasks[idx], isEnter)
+        }
+      } else {
+        this.taskDelete(this.taskService.tasks[idx].id)
+      }
+    }
+  }
+
+  taskAddSave(task: Task, isEnter = false) {
     const idx = this.taskService.tasks.findIndex(ts => ts.id === task.id)
     this.tasksLoading = true
-    this.onCreate.emit(task)
+
+    if (isEnter) {
+      this.onEnter.emit(task)
+    }
 
     this.cSub = this.taskService.create(task).subscribe((task) => {
       this.tasksLoading = false
@@ -123,32 +128,31 @@ export class TasksListComponent implements OnInit, AfterViewInit, OnDestroy {
       )
   }
 
-  saveTask(value: string, idx: number) {
-    if (!this.errorInput) {
-      if (value.trim() && !this.tasksLoading) {
-        const id = this.taskService.tasks[idx].id
-        this.taskService.tasks[idx].show_edit = false
-        if (id > 0) {
-          this.taskEdit({id, value})
-        } else {
-          this.taskService.tasks[idx].title = value
-          this.taskAddSave(this.taskService.tasks[idx])
-        }
-      }
+  taskDelete(id: number) {
+    if (id > 0) {
+      this.tasksLoading = true
+      this.taskService.delete(id)
+        .subscribe(
+          () => this.tasksLoading = false,
+          () => this.tasksLoading = false
+        )
     }
+
+    this.taskService.tasks = this.taskService.tasks.filter((ts) => ts.id !== id)
   }
 
+  checkToggle(check: CheckEvent) {
+    const idx = this.taskService.tasks.findIndex((ts) => ts.id === check.id)
+    this.tasksLoading = true
 
-  validateInput(title: string) {
-    if (title.length > 100) {
-      this.errorInput = true
-    } else {
-      if (this.errorInput) {
-        this.errorInput = false
-      }
-    }
+    this.taskService.toggleCheck(check.id)
+      .subscribe(
+        () => this.tasksLoading = false,
+        () => this.tasksLoading = false
+      )
+
+    this.taskService.tasks[idx].is_done = check.checked ? 1 : 0
   }
-
   /**
    *
    * Calendar

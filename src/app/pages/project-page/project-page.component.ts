@@ -123,7 +123,7 @@ export class ProjectPageComponent implements OnInit, AfterViewInit, OnDestroy {
   * Tasks
   * */
 
-  taskCreated(task: Task) {
+  taskEnter(task: Task) {
     this.taskService.addNewTask({project_id: this.project.id})
   }
 

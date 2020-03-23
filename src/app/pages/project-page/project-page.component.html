@@ -59,7 +59,7 @@
               <div class="row">
                 <div class="col s12">
                   <h5>Завдання</h5>
-                  <app-tasks-list (onCreate)="taskCreated($event)"></app-tasks-list>
+                  <app-tasks-list (onEnter)="taskEnter($event)"></app-tasks-list>
                   <button class="waves-effect waves-light btn"
                           (click)="taskService.addNewTask({project_id: project.id})">Додати завдання</button>
                 </div>
