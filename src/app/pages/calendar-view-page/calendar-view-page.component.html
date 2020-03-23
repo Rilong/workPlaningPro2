@@ -13,7 +13,7 @@
             <div class="row">
               <div class="col s12">
                 <h5>Завдання</h5>
-                <app-tasks-list (update)="updatedTasks($event)"></app-tasks-list>
+                <app-tasks-list (update)="updatedTasks($event)" (onEnter)="addTask()"></app-tasks-list>
                 <button class="waves-effect waves-light btn"
                         (click)="addTask()">Додати завдання</button>
               </div>
