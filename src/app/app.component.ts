@@ -12,4 +12,8 @@ export class AppComponent {
   constructor(public userService: UserService, public settingsService: SettingsService) {
     moment.locale('uk')
   }
+
+  closeSettings($event: MouseEvent) {
+    this.settingsService.open = false
+  }
 }

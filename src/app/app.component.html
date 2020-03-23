@@ -1,5 +1,5 @@
 <app-loader [show]="userService.loading"></app-loader>
-<div *ngIf="!userService.loading" class="app">
+<div *ngIf="!userService.loading" class="app" (click)="closeSettings($event)">
   <div class="app-background"
        *ngIf="settingsService.settings.background"
        [ngStyle]="{

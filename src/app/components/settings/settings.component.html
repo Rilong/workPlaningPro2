@@ -1,4 +1,4 @@
-<div [@slideUp] *ngIf="settingsService.open" class="settings">
+<div [@slideUp] *ngIf="settingsService.open" class="settings" (click)="blockClosingSettings($event)">
   <div class="card horizontal">
     <div class="card-stacked">
       <div class="header">

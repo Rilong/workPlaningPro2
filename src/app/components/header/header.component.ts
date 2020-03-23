@@ -40,6 +40,7 @@ export class HeaderComponent implements OnInit {
 
   openSettings(event: MouseEvent) {
     event.preventDefault()
+    event.stopPropagation()
     this.settingsService.open = true
   }
 }

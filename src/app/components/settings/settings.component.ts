@@ -29,4 +29,7 @@ export class SettingsComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  blockClosingSettings(event: MouseEvent) {
+    event.stopPropagation()
+  }
 }
