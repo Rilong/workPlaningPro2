@@ -43,12 +43,17 @@ export class BackgroundSettingsComponent implements OnInit, AfterViewInit, OnDes
   }
 
   selectPhoto(photo: UnsplashPhoto) {
+    const TIMEOUT = 250
+
     this.settingsService.settings.background = this.settingsService.setPhotoParams(photo.urls.regular, {
       w: '2500',
       dpi: '2'
     })
     this.settingsService.changeSettings(this.settingsService.settings)
-      .subscribe()
+      .subscribe(() => {
+        this.closeModal()
+        setTimeout(() => this.settingsService.open = false, TIMEOUT)
+      })
   }
 
   scrollPhotos(event: Event) {
