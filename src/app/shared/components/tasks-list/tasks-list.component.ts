@@ -49,6 +49,7 @@ export class TasksListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private tasksLoading = false
   @Output() update: EventEmitter<Task[]> = new EventEmitter<Task[]>()
+  @Output() onCreate: EventEmitter<Task> = new EventEmitter<Task>()
 
   @ViewChild('input') input: ElementRef<HTMLInputElement>
   @ViewChild('calendarModal') calendarModal: ElementRef<HTMLDivElement>
@@ -101,6 +102,7 @@ export class TasksListComponent implements OnInit, AfterViewInit, OnDestroy {
   taskAddSave(task: Task) {
     const idx = this.taskService.tasks.findIndex(ts => ts.id === task.id)
     this.tasksLoading = true
+    this.onCreate.emit(task)
 
     this.cSub = this.taskService.create(task).subscribe((task) => {
       this.tasksLoading = false
