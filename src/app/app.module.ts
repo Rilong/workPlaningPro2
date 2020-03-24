@@ -21,6 +21,7 @@ import {CalendarViewPageComponent} from './pages/calendar-view-page/calendar-vie
 import {SettingsComponent} from './components/settings/settings.component'
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { BackgroundSettingsComponent } from './components/background-settings/background-settings.component'
+import {ReversePipe} from './shared/pipes/reverse/reverse.pipe'
 
 @NgModule({
   declarations: [
@@ -35,11 +36,12 @@ import { BackgroundSettingsComponent } from './components/background-settings/ba
     TasksListComponent,
     CalendarPageComponent,
     CalendarChooserComponent,
-    MomentPipe,
-    ToMomentPipe,
     CalendarViewPageComponent,
     SettingsComponent,
-    BackgroundSettingsComponent
+    BackgroundSettingsComponent,
+    MomentPipe,
+    ToMomentPipe,
+    ReversePipe,
   ],
   imports: [
     BrowserModule,

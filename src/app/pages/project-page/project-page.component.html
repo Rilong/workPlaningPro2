@@ -4,7 +4,9 @@
       <div class="card">
         <div class="card-content">
           <button class="btn btn-floating waves-effect waves-light project-close"
-                  (click)="close()"><app-icon>arrow_back</app-icon></button>
+                  (click)="close()">
+            <app-icon>arrow_back</app-icon>
+          </button>
           <div class="dates">
             <span (click)="calendarChooseOpen('project_start')">
               {{project.start_date | toMoment | moment:'DD.MM.YYYY'}}
@@ -58,10 +60,14 @@
             <div class="tasks">
               <div class="row">
                 <div class="col s12">
-                  <h5>Завдання</h5>
+                  <div class="tasks-title">
+                    <h5>Завдання</h5>
+                    <button class="waves-effect waves-light btn"
+                            (click)="taskService.addNewTask({project_id: project.id})">
+                      Додати завдання
+                    </button>
+                  </div>
                   <app-tasks-list (onEnter)="taskEnter($event)"></app-tasks-list>
-                  <button class="waves-effect waves-light btn"
-                          (click)="taskService.addNewTask({project_id: project.id})">Додати завдання</button>
                 </div>
               </div>
             </div>
@@ -89,6 +95,7 @@
     <button class="waves-effect waves-green btn-flat green-text"
             (click)="calendarChooserApply()"
             [disabled]="!calendar.day || calendar.loading"
-    >Вибрати дату</button>
+    >Вибрати дату
+    </button>
   </div>
 </div>

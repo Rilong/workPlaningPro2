@@ -84,25 +84,26 @@ export class TasksListComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
 
-  saveTask(value: string, idx: number, isEnter = false) {
+  saveTask(value: string, id: number, isEnter = false) {
+    const task = this.taskService.tasks.find((t) => t.id === id)
+
     if (!this.errorInput) {
       if (value.trim() && !this.tasksLoading) {
-        const id = this.taskService.tasks[idx].id
-        this.taskService.tasks[idx].show_edit = false
-        if (id > 0) {
-          this.taskEdit({id, value})
+        task.show_edit = false
+        if (task.id > 0) {
+          this.taskEdit({id: task.id, value})
         } else {
-          this.taskService.tasks[idx].title = value
-          this.taskAddSave(this.taskService.tasks[idx], isEnter)
+          task.title = value
+          this.taskAddSave(task, isEnter)
         }
       } else {
-        this.taskDelete(this.taskService.tasks[idx].id)
+        this.taskDelete(task.id)
       }
     }
   }
 
   taskAddSave(task: Task, isEnter = false) {
-    const idx = this.taskService.tasks.findIndex(ts => ts.id === task.id)
+    let taskFromService = this.taskService.tasks.find(ts => ts.id === task.id)
     this.tasksLoading = true
 
     if (isEnter) {
@@ -111,7 +112,7 @@ export class TasksListComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.cSub = this.taskService.create(task).subscribe((task) => {
       this.tasksLoading = false
-      this.taskService.tasks[idx] = task
+      Object.assign(taskFromService, task)
       setTimeout(() => this.dropdownInit(), 0)
     }, () => this.tasksLoading = false)
 

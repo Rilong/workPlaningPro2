@@ -1,6 +1,6 @@
 <ul class="collection" *ngIf="taskService.tasks && taskService.tasks.length; else noTasks">
   <li class="collection-item"
-      *ngFor="let task of taskService.tasks; let idx = index"
+      *ngFor="let task of taskService.tasks | reverse:true; let idx = index"
       (mouseenter)="task.show_control = true"
       (mouseleave)="task.show_control = false"
       [ngClass]="{
@@ -22,8 +22,8 @@
                [class.invalid]="errorInput"
                [value]="task.title"
                (input)="validateTaskInput($event.target['value'])"
-               (blur)="saveTask($event.target['value'], idx)"
-               (keyup.enter)="saveTask($event.target['value'], idx, true)" #input>
+               (blur)="saveTask($event.target['value'], task.id)"
+               (keyup.enter)="saveTask($event.target['value'], task.id, true)" #input>
       </span>
       <ng-template #title>
         <span (click)="showInput(idx)" class="task-title">
