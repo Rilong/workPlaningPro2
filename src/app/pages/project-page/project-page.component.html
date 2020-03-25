@@ -60,14 +60,12 @@
             <div class="tasks">
               <div class="row">
                 <div class="col s12">
-                  <div class="tasks-title">
-                    <h5>Завдання</h5>
-                    <button class="waves-effect waves-light btn"
-                            (click)="taskService.addNewTask({project_id: project.id})">
-                      Додати завдання
-                    </button>
-                  </div>
+                  <h5>Завдання</h5>
                   <app-tasks-list (onEnter)="taskEnter($event)"></app-tasks-list>
+                  <button class="waves-effect waves-light btn"
+                          (click)="taskService.addNewTask({project_id: project.id})">
+                    Додати завдання
+                  </button>
                 </div>
               </div>
             </div>

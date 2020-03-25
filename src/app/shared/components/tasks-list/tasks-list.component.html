@@ -1,6 +1,6 @@
 <ul class="collection" *ngIf="taskService.tasks && taskService.tasks.length; else noTasks">
   <li class="collection-item"
-      *ngFor="let task of taskService.tasks | reverse:true; let idx = index"
+      *ngFor="let task of taskService.tasks; let idx = index"
       (mouseenter)="task.show_control = true"
       (mouseleave)="task.show_control = false"
       [ngClass]="{
