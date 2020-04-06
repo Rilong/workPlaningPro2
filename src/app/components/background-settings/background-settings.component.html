@@ -5,9 +5,14 @@
     <h4>Вибір зображення</h4>
     <div class="row">
       <div class="col s12">
-        <div class="photos" (scroll)="scrollPhotos($event)">
-          <div class="photo" *ngFor="let photo of photos" (click)="selectPhoto(photo)">
-            <span [style.background-image]="'url(' + photo.urls.small + ')'" class="photo-img"></span>
+        <div class="photos-wrap">
+          <div class="photos" (scroll)="scrollPhotos($event)" *ngIf="isLoaded">
+            <div class="photo" *ngFor="let photo of photos" (click)="selectPhoto(photo)">
+              <span [style.background-image]="'url(' + photo.urls.small + ')'" class="photo-img"></span>
+            </div>
+          </div>
+          <div class="loader" *ngIf="!isLoaded">
+            <app-loader size="big" type="spinner" [show]="true"></app-loader>
           </div>
         </div>
       </div>

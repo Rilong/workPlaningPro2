@@ -13,7 +13,7 @@ import {UnsplashPhoto} from '../../shared/interfaces/unsplash'
 export class BackgroundSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public isOpen = false
-  public isLoading = false
+  public isLoaded = false
   public photos: Array<UnsplashPhoto> = []
   @ViewChild('bgModal') modal: ElementRef<HTMLDivElement>
 
@@ -34,12 +34,12 @@ export class BackgroundSettingsComponent implements OnInit, AfterViewInit, OnDes
   }
 
   loadPhotos() {
-    this.isLoading = true
-
     this.PSub = this.settingsService.getPhotos(this.page).subscribe(photos => {
-      this.isLoading = false
+      if (!this.isLoaded) {
+        this.isLoaded = true
+      }
       this.photos = [...this.photos, ...photos]
-    }, () => this.isLoading = false)
+    })
   }
 
   selectPhoto(photo: UnsplashPhoto) {
@@ -83,7 +83,8 @@ export class BackgroundSettingsComponent implements OnInit, AfterViewInit, OnDes
   onCloseModal(el: Element) {
     this.isOpen = false
     this.photos = []
-
+    this.isLoaded = false
+    
     if (this.PSub) {
       this.PSub.unsubscribe()
     }
