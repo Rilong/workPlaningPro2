@@ -6,12 +6,12 @@
     <div class="row">
       <div class="col s12">
         <div class="photos-wrap">
-          <div class="photos" (scroll)="scrollPhotos($event)" *ngIf="isLoaded">
+          <div class="photos" (scroll)="scrollPhotos($event)" *ngIf="loaded">
             <div class="photo" *ngFor="let photo of photos" (click)="selectPhoto(photo)">
               <span [style.background-image]="'url(' + photo.urls.small + ')'" class="photo-img"></span>
             </div>
           </div>
-          <div class="loader" *ngIf="!isLoaded">
+          <div class="loader" *ngIf="!loaded">
             <app-loader size="big" type="spinner" [show]="true"></app-loader>
           </div>
         </div>

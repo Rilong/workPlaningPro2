@@ -13,10 +13,11 @@ import {UnsplashPhoto} from '../../shared/interfaces/unsplash'
 export class BackgroundSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public isOpen = false
-  public isLoaded = false
+  public loaded = false
   public photos: Array<UnsplashPhoto> = []
   @ViewChild('bgModal') modal: ElementRef<HTMLDivElement>
 
+  private loading = false
   private PSub: Subscription = null
   private modalInstance: ModalInstance = null
   private page = 1
@@ -34,12 +35,15 @@ export class BackgroundSettingsComponent implements OnInit, AfterViewInit, OnDes
   }
 
   loadPhotos() {
+    this.loading = true
     this.PSub = this.settingsService.getPhotos(this.page).subscribe(photos => {
-      if (!this.isLoaded) {
-        this.isLoaded = true
+
+      if (!this.loaded) {
+        this.loaded = true
       }
       this.photos = [...this.photos, ...photos]
-    })
+      this.loading = false
+    }, () => this.loading = false)
   }
 
   selectPhoto(photo: UnsplashPhoto) {
@@ -58,9 +62,9 @@ export class BackgroundSettingsComponent implements OnInit, AfterViewInit, OnDes
 
   scrollPhotos(event: Event) {
     const target = (event.target as HTMLDivElement)
-    const isDown = (target.scrollHeight - target.scrollTop ) === target.clientHeight
+    const scroll = (target.scrollHeight - target.scrollTop ) - target.clientHeight
 
-    if (isDown) {
+    if (scroll < (60 * this.page) && !this.loading) {
       this.page++
       this.loadPhotos()
     }
@@ -83,7 +87,7 @@ export class BackgroundSettingsComponent implements OnInit, AfterViewInit, OnDes
   onCloseModal(el: Element) {
     this.isOpen = false
     this.photos = []
-    this.isLoaded = false
+    this.loaded = false
     
     if (this.PSub) {
       this.PSub.unsubscribe()
